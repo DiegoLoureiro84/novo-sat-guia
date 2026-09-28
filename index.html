@@ -1,0 +1,1607 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Coplan · Guia Coplan no Novo SAT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700;800&display=swap">
+<style>
+  /* ===== Coplan Design System v2.0 · tokens e shell (fonte: coplan-design-system/index.html) ===== */
+  :root{
+    --bg:#F5F7FC; --fg:#0A1A2E; --card:#FFFFFF; --border:#E0E0E1;
+    --primary:#1F4993; --primary-hover:#173a76; --accent:#75C566; --muted:#8A8A8D; --mutedbg:#E6E6E7;
+    --secondary:#F5F5F6; --secondary-fg:#57575A; --dark-green:#01814E; --navy:#01203F;
+    --destructive:#EF4444; --radius:12.8px; --radius-md:10.8px; --radius-sm:8.8px; --sidebar-w:260px;
+    --row-hover:#EAF7EE; --readonly:#EEF1FA;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;}
+  body{background:var(--bg);color:var(--fg);font-family:'Exo 2',ui-sans-serif,system-ui,sans-serif;line-height:1.5;display:flex;}
+  a{color:var(--primary);}
+  button{font-family:inherit;}
+  .ic{width:16px;height:16px;flex-shrink:0;display:inline-flex;}
+  .ic svg{width:100%;height:100%;}
+  .ic-18{width:18px;height:18px;}
+
+  /* ---- sidebar ---- */
+  aside{width:var(--sidebar-w);flex-shrink:0;height:100vh;position:sticky;top:0;background:#fff;color:var(--fg);padding:20px 12px;overflow-y:auto;overflow-x:hidden;border-right:1px solid var(--border);box-shadow:2px 0 4px rgba(0,0,0,.05);transition:width .36s cubic-bezier(.65,0,.35,1);z-index:35;}
+  aside.collapsed{width:64px;padding:20px 8px;}
+  aside.collapsed .navgroup-title, aside.collapsed nav a span.lbl{display:none;}
+  aside.collapsed .brand-text{display:none;}
+  aside.collapsed nav a{justify-content:center;}
+  aside.collapsed .brand{justify-content:center;padding:0 0 16px;}
+  .brand{padding:0 8px 16px;border-bottom:1px solid var(--border);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+  .brand-logo{width:34px;height:34px;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+  .brand-text{white-space:nowrap;}
+  .brand-text b{font-size:15px;display:block;letter-spacing:.01em;color:var(--primary);}
+  .brand-text span{font-size:11px;color:var(--muted);}
+  .navgroup{margin-bottom:6px;}
+  .navgroup-title{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);padding:14px 12px 6px;white-space:nowrap;}
+  nav a{display:flex;align-items:center;gap:10px;padding:9px 12px;margin-bottom:2px;border-radius:8px;font-size:13.5px;color:var(--fg);text-decoration:none;cursor:pointer;white-space:nowrap;transition:background .15s ease, color .15s ease;}
+  nav a .ic{opacity:.75;}
+  nav a:hover, nav a.active{background:var(--accent);color:#fff;font-weight:600;}
+  nav a:hover .ic, nav a.active .ic{opacity:1;}
+  nav a:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+  .nav-tip{position:fixed;z-index:80;background:#fff;color:#0A1A2E;font-size:12.5px;font-weight:500;padding:6px 10px;border-radius:8px;box-shadow:0 6px 18px rgba(10,26,46,.18);pointer-events:none;white-space:nowrap;}
+
+  /* ---- coluna direita / cabeçalho ---- */
+  .shell-right{flex:1;display:flex;flex-direction:column;min-width:0;min-height:100vh;}
+  .doc-topbar{position:sticky;top:0;z-index:30;background:#fff;border-bottom:1px solid var(--border);padding:12px 32px;display:flex;align-items:center;justify-content:space-between;gap:20px;}
+  .doc-topbar-left{display:flex;align-items:center;gap:14px;flex:1;min-width:0;}
+  .shell-collapse-btn{border:1px solid var(--border);background:#fff;border-radius:8px;width:30px;height:30px;cursor:pointer;flex-shrink:0;transition:background .15s ease;display:flex;align-items:center;justify-content:center;color:var(--fg);}
+  .shell-collapse-btn:hover{background:#F0F2F8;}
+  #docCollapseArrow{transform-origin:12px 12px;transition:transform .2s ease;}
+  .shell-collapse-btn.flipped #docCollapseArrow{transform:scaleX(-1);}
+  .doc-search-wrap{position:relative;flex:1;max-width:360px;}
+  .doc-search{border:1px solid var(--border);border-radius:10px;padding:9px 14px;display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);cursor:pointer;transition:border-color .15s ease;background:#fff;width:100%;text-align:left;}
+  .doc-search:hover{border-color:var(--primary);}
+  .doc-search kbd{margin-left:auto;background:var(--mutedbg);border-radius:5px;padding:1px 6px;font-size:10.5px;font-family:inherit;}
+  .doc-search-panel{display:none;position:absolute;top:0;left:0;width:min(420px,calc(100vw - 32px));background:#fff;border-radius:12px;box-shadow:0 12px 32px rgba(10,26,46,.2);z-index:41;overflow:hidden;}
+  .doc-search-panel.open{display:block;}
+  .doc-search-panel input{width:100%;border:none;border-bottom:1px solid var(--border);padding:14px 16px;font-family:inherit;font-size:14px;outline:none;}
+  #docSearchResults{max-height:340px;overflow-y:auto;}
+  .doc-search-result{display:flex;justify-content:space-between;gap:12px;padding:11px 16px;font-size:13.5px;cursor:pointer;transition:background .12s ease,color .12s ease;}
+  .doc-search-result:hover, .doc-search-result.sel{background:var(--accent);color:#fff;}
+  .doc-search-result span.cat{font-size:11px;color:var(--muted);}
+  .doc-search-result:hover span.cat, .doc-search-result.sel span.cat{color:rgba(255,255,255,.8);}
+  .doc-search-backdrop{display:none;position:fixed;inset:0;z-index:40;}
+  .doc-search-backdrop.open{display:block;}
+  .doc-topbar-right{display:flex;align-items:center;gap:6px;flex-shrink:0;}
+  .hdr-context-wrap{position:relative;flex-shrink:0;}
+  .hdr-context-btn{display:flex;align-items:center;gap:10px;border:1px solid var(--border);border-radius:10px;padding:7px 12px;cursor:pointer;background:#fff;transition:border-color .15s ease;color:var(--fg);}
+  .hdr-context-btn:hover{border-color:var(--primary);}
+  .hdr-context-text{line-height:1.3;white-space:nowrap;text-align:left;}
+  .hdr-context-text b{display:block;font-size:12.5px;color:var(--primary);font-weight:700;}
+  .hdr-context-text span{font-size:11px;color:var(--fg);opacity:.65;}
+  .hdr-context-brasao{width:26px;height:26px;border-radius:6px;background:var(--mutedbg);color:var(--primary);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .hdr-icon-wrap{position:relative;}
+  .hdr-icon-btn{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--muted);cursor:pointer;border:0;background:transparent;position:relative;transition:background .15s ease,color .15s ease;}
+  .hdr-icon-btn:hover{background:var(--accent);color:#fff;}
+  .hdr-icon-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+  .hdr-avatar-btn{background:var(--mutedbg);}
+  .hdr-badge{position:absolute;top:3px;right:3px;min-width:16px;height:16px;border-radius:999px;background:var(--destructive);color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 4px;}
+  .hdr-dropdown{display:none;position:absolute;top:calc(100% + 10px);right:0;min-width:230px;background:#fff;border:1px solid var(--border);border-radius:12px;box-shadow:0 12px 28px rgba(10,26,46,.15);padding:8px;z-index:45;}
+  .hdr-context-wrap .hdr-dropdown{right:auto;left:0;min-width:280px;padding:14px;}
+  .hdr-dropdown.open{display:block;}
+  .hdr-dropdown-wide{min-width:320px;padding:10px;}
+  .hdr-dropdown-title{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);padding:6px 10px 10px;}
+  .hdr-dropdown-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:8px;font-size:13px;cursor:pointer;color:var(--fg);text-decoration:none;transition:background .15s ease,color .15s ease;}
+  .hdr-dropdown-item:hover{background:var(--accent);color:#fff;}
+  .hdr-dropdown-item.static{cursor:default;}
+  .hdr-dropdown-item.static:hover{background:transparent;color:var(--fg);}
+  .hdr-kv{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;font-size:12.5px;padding:0 4px;}
+  .hdr-kv dt{color:var(--muted);}
+  .hdr-kv dd{margin:0;font-weight:600;}
+  .hdr-occurrence{display:flex;flex-direction:column;gap:4px;padding:12px 10px;border-radius:8px;border-bottom:1px solid var(--border);}
+  .hdr-occurrence:last-of-type{border-bottom:none;}
+  .hdr-occurrence b{font-size:11px;color:var(--primary);text-transform:uppercase;letter-spacing:.03em;}
+  .hdr-occurrence span{font-size:13px;}
+  .hdr-occ-link{font-size:11.5px;color:var(--primary);font-weight:600;cursor:pointer;}
+  .hdr-occ-link:hover{text-decoration:underline;}
+  .hdr-occ-header{display:flex;justify-content:space-between;align-items:center;padding:6px 10px 8px;}
+
+  /* ---- conteúdo ---- */
+  main{flex:1;padding:40px 48px 60px;width:100%;max-width:1100px;}
+  .page{display:none;}
+  .page.active{display:block;animation:fade .25s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .pattern-header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;margin-bottom:20px;}
+  .pattern-header h1{margin:0;font-size:28px;line-height:1.2;color:var(--primary);font-weight:700;}
+  .pattern-header p{margin:4px 0 0;color:var(--muted);font-size:14px;}
+  .eyebrow{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;}
+  p.lead{color:var(--muted);font-size:14.5px;max-width:720px;margin:0 0 24px;}
+  p{margin:0 0 12px;}
+  h2.sub{font-size:14px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin:32px 0 14px;border-bottom:1px solid var(--border);padding-bottom:8px;font-weight:600;}
+  h3{margin:0 0 8px;font-size:18px;font-weight:600;}
+  .note{background:#FFF8E1;border:1px solid #F0DFA0;border-radius:8px;padding:12px 16px;font-size:13px;margin:14px 0;}
+  .spec{font-size:12.5px;color:var(--muted);margin:6px 0 20px;}
+  code{font-family:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;font-size:.9em;}
+  :not(pre)>code{background:var(--readonly);color:var(--primary);padding:1px 6px;border-radius:6px;}
+  pre{background:#0A1A2E;color:#D6E4FF;padding:16px 18px;border-radius:10px;overflow:auto;font-size:12.5px;line-height:1.6;margin:0;max-height:480px;tab-size:2;}
+
+  .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;}
+  @media (max-width:349px){.card{padding:8px;}}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+  .grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
+  .card-title{display:flex;align-items:center;gap:8px;font-size:16px;font-weight:600;margin:0 0 8px;color:var(--fg);}
+  .card-title .ic{color:var(--accent);width:20px;height:20px;}
+  .card p{font-size:13.5px;margin:0 0 10px;}
+  .card ul,.card ol{margin:0;padding-left:18px;font-size:13.5px;display:grid;gap:4px;}
+  .kpis{display:flex;gap:12px;flex-wrap:wrap;margin:0 0 8px;}
+  .kpi{flex:1;min-width:150px;border:1px solid var(--border);border-radius:12px;background:#fff;padding:14px 16px;}
+  .kpi b{display:block;font-size:26px;font-weight:800;color:var(--primary);line-height:1.1;font-variant-numeric:tabular-nums;}
+  .kpi span{font-size:12.5px;color:var(--muted);}
+
+  /* botões (sempre ícone + label) */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 20px;border-radius:12.8px;font-weight:500;font-size:14px;cursor:pointer;text-decoration:none;white-space:nowrap;transition:background .18s ease, transform .1s ease, color .18s ease;}
+  .btn-primary{background:var(--primary);color:#fff;border:none;}
+  .btn-primary:hover{background:var(--primary-hover);}
+  .btn-primary:active{transform:scale(.97);}
+  .btn-outline{background:transparent;color:var(--primary);border:1px solid var(--border);}
+  .btn-outline:hover{background:#F0F2F8;}
+  .btn-ghost{background:transparent;color:#57575A;border:none;padding:0 12px;border-radius:6px;transition:background .2s ease, color .2s ease, transform .2s ease;}
+  .btn-ghost:hover{background:var(--accent);color:#fff;transform:scale(1.05);}
+  .btn[disabled]{opacity:.5;cursor:not-allowed;transform:none;}
+  .btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+  .btn-sm{height:32px;padding:0 12px;border:1px solid var(--border);background:#fff;color:var(--fg);border-radius:8.8px;font-size:12.5px;}
+  .btn-sm:hover{background:#F0F2F8;border-color:var(--primary);}
+  .btn-sm.active{background:var(--primary);color:#fff;border-color:var(--primary);}
+  .btnrow{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 16px;}
+
+  /* chips */
+  .chip{display:inline-block;background:var(--mutedbg);border-radius:999px;padding:4px 12px;font-size:11px;color:#57575A;white-space:nowrap;}
+  .status-chip{display:inline-block;border-radius:999px;padding:4px 12px;font-size:11.5px;font-weight:600;white-space:nowrap;}
+  .status-active{background:#E6F8F0;color:#01814E;}
+  .status-pending{background:#FFF3D6;color:#8A6100;}
+  .status-error{background:#FEE2E2;color:#B91C1C;}
+  .status-info{background:#EEF3FF;color:var(--primary);}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 16px;}
+
+  /* tabelas */
+  .tbl-wrap{background:var(--card);border:1px solid var(--border);border-radius:10px;overflow-x:auto;}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;background:var(--card);}
+  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--border);vertical-align:top;}
+  th{background:#fff;font-size:11.5px;text-transform:uppercase;letter-spacing:.03em;color:var(--muted);font-weight:600;height:48px;vertical-align:middle;}
+  td{height:56px;vertical-align:middle;}
+  tr:last-child td{border-bottom:none;}
+  tbody tr{transition:background .15s ease;}
+  tbody tr:hover{background:var(--row-hover);}
+  td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;}
+  .vtable{min-width:720px;}
+  .vtable td{height:auto;padding:12px;vertical-align:top;}
+
+  /* passos */
+  .steps{list-style:none;margin:0;padding:0;display:grid;gap:12px;counter-reset:s;}
+  .steps>li{counter-increment:s;display:grid;grid-template-columns:36px 1fr;gap:14px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;}
+  .steps>li::before{content:counter(s);width:36px;height:36px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;}
+  .steps>li>div{min-width:0;}
+  .steps h3{font-size:16px;margin:6px 0 8px;}
+  .steps p{font-size:13.5px;}
+  .steps pre{margin:0 0 10px;}
+
+  /* blocos de código */
+  .code{border:1px solid var(--border);border-radius:10px;background:#fff;overflow:hidden;margin-bottom:12px;}
+  .code>summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px 10px 16px;flex-wrap:wrap;}
+  .code>summary::-webkit-details-marker{display:none;}
+  .code>summary b{display:flex;align-items:center;gap:8px;font-size:13.5px;}
+  .code>summary .path{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11.5px;color:var(--muted);font-weight:400;}
+  .code .chev{transition:transform .2s ease;color:var(--muted);}
+  .code[open] .chev{transform:rotate(180deg);}
+  .code pre{border-radius:0;}
+  .tree{white-space:pre;}
+
+  /* diagrama */
+  .diagram{overflow-x:auto;background:#fff;border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:14px;}
+  .diagram svg{display:block;min-width:760px;width:100%;height:auto;}
+
+  /* ===== demonstração: tela ilustrativa ===== */
+  .demo-app{border:1px solid var(--border);border-radius:10px;overflow:hidden;background:#fff;}
+  .demo-strip{height:4px;background:#0A1A2E;}
+  .demo-top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px;border-bottom:1px solid var(--border);flex-wrap:wrap;}
+  .demo-top b{font-size:14px;color:var(--primary);display:block;}
+  .demo-top span{font-size:11px;color:var(--muted);}
+  .demo-body{background:var(--bg);padding:20px;}
+  .demo-body .pattern-header h1{font-size:22px;}
+  .form-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:14px;}
+  .form-card-title{font-size:13px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin:0 0 12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .frow{display:flex;flex-wrap:wrap;gap:14px;align-items:flex-end;}
+  .fld{display:flex;flex-direction:column;gap:4px;min-width:0;}
+  .fld label{font-size:12px;color:var(--muted);}
+  .inp{height:40px;border:1px solid var(--border);border-radius:12.8px;padding:0 12px;font-family:inherit;font-size:14px;color:var(--fg);background:#fff;min-width:0;transition:border-color .15s ease;}
+  .inp:focus{outline:none;border-color:var(--accent);border-width:2px;padding:0 11px;}
+  .inp.ro{background:var(--readonly);border-color:var(--readonly);font-weight:700;}
+  .demo-table{min-width:560px;}
+  .resultado{border:1px dashed var(--border);border-radius:12.8px;padding:12px 14px;font-size:14px;color:var(--muted);margin-top:14px;background:#fff;}
+  .resultado.ok{border:1px solid var(--accent);background:#E6F8F0;color:var(--fg);}
+  .demo-foot{font-size:11px;color:var(--muted);padding:10px 16px;border-top:1px solid var(--border);background:#fff;}
+  .idtag{display:none;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:10.5px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--primary);background:var(--readonly);border-radius:5px;padding:1px 6px;}
+  .show-ids .idtag{display:inline-block;}
+  .trace ol{margin:0;padding-left:22px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;color:var(--secondary-fg);max-height:200px;overflow:auto;display:grid;gap:2px;}
+
+  /* toast (padrão DS: canto superior direito, desliza da direita) */
+  .toast-live{position:fixed;top:24px;right:24px;max-width:340px;border-radius:8px;box-shadow:0 8px 24px rgba(10,26,46,.25);padding:16px 36px 16px 16px;color:#fff;z-index:1000000005;transform:translateX(140%);transition:transform .3s cubic-bezier(.17,.89,.32,1.28);}
+  .toast-live{visibility:hidden;}
+  .toast-live.show{transform:translateX(0);visibility:visible;}
+  .toast-live b{display:block;font-size:16px;margin-bottom:4px;}
+  .toast-live p{margin:0;font-size:13px;font-weight:600;}
+  .toast-live .toast-close{position:absolute;top:10px;right:12px;cursor:pointer;opacity:.8;background:none;border:0;color:#fff;font-size:14px;}
+  .toast-live.success{background:var(--accent);}
+  .toast-live.error{background:var(--destructive);}
+  .toast-live.info{background:var(--primary);}
+
+  /* modal (única elevação permitida) · painel do manual */
+  .confirm-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:1000000003;padding:16px;}
+  .confirm-overlay.show{display:flex;}
+  .fluxo-card{background:#fff;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.2);max-width:560px;width:100%;padding:24px;max-height:90vh;overflow:auto;}
+  .fluxo-head{display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid var(--border);padding-bottom:14px;margin-bottom:16px;}
+  .fluxo-head h3{margin:0;font-size:20px;display:flex;align-items:center;gap:8px;}
+  .fluxo-close{cursor:pointer;color:var(--muted);background:none;border:0;padding:4px;display:flex;}
+  .fluxo-close:hover{color:var(--destructive);}
+  .fluxo-pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;}
+  .fluxo-pill{border:1px solid var(--border);border-radius:999px;padding:5px 14px;font-size:12px;color:var(--muted);}
+  .fluxo-card ol{margin:0 0 14px;padding-left:20px;font-size:14px;display:grid;gap:6px;}
+
+  /* rodapé institucional */
+  .doc-footer-real{margin-top:auto;padding:14px 32px;border-top:1px solid var(--border);font-size:11.5px;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;background:#fff;}
+  .doc-footer-links a{color:var(--muted);text-decoration:none;}
+  .doc-footer-links a:hover{color:var(--primary);}
+  footer.docfooter{margin-top:48px;padding-top:20px;border-top:1px solid var(--border);font-size:11.5px;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+
+  .fontes{margin:0;padding-left:18px;display:grid;gap:8px;font-size:14px;}
+  .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
+
+  /* ===== responsivo (extensão: o DS v2.0 não define o shell abaixo de 900px) ===== */
+  .aside-backdrop{display:none;}
+  @media (max-width:1199px){ .grid3{grid-template-columns:1fr 1fr;} }
+  @media (max-width:899px){
+    aside{position:fixed;left:0;top:0;height:100%;transform:translateX(-100%);transition:transform .3s ease;box-shadow:none;z-index:60;width:var(--sidebar-w)!important;padding:20px 12px!important;}
+    aside.mobile-open{transform:none;box-shadow:0 10px 30px rgba(0,0,0,.2);}
+    aside.collapsed .navgroup-title, aside.collapsed nav a span.lbl, aside.collapsed .brand-text{display:revert;}
+    aside.collapsed nav a{justify-content:flex-start;}
+    .aside-backdrop.open{display:block;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:55;}
+    .doc-topbar{padding:10px 16px;gap:10px;}
+    .hdr-context-wrap, .hide-md{display:none;}
+    main{padding:24px 16px 48px;}
+    .grid3,.grid2{grid-template-columns:1fr;}
+    .doc-footer-real{padding:14px 16px;}
+  }
+  @media (max-width:599px){
+    .doc-search span.txt, .doc-search kbd{display:none;}
+    .doc-search{width:36px;height:36px;padding:0;justify-content:center;border-radius:50%;}
+    .doc-search-wrap{flex:0 0 auto;}
+    .pattern-header h1{font-size:24px;}
+    .hdr-dropdown{position:fixed;left:16px!important;right:16px!important;top:64px;min-width:0!important;}
+  }
+  @media (prefers-reduced-motion: reduce){ *{animation:none!important;transition:none!important;} }
+
+  /* === Driver.js 1.8.0 (MIT) === */
+  .driver-popover{all:unset;font-family:var(--driver-popover-font-family,"Helvetica Neue", Inter, ui-sans-serif, "Apple Color Emoji", Helvetica, Arial, sans-serif);box-sizing:border-box;color:#2d2d2d;z-index:1000000000;background-color:#fff;border-radius:5px;min-width:250px;max-width:300px;margin:0;padding:15px;position:fixed;top:0;right:0;box-shadow:0 1px 10px #0006}.driver-popover-title{zoom:1;margin:0;font-size:19px;font-weight:700;line-height:1.5;display:block;position:relative}.driver-popover-close-btn{all:unset;cursor:pointer;color:#d2d2d2;z-index:1;text-align:center;width:32px;height:28px;font-size:18px;font-weight:500;transition:color .2s;position:absolute;top:0;right:0}.driver-popover-close-btn:hover,.driver-popover-close-btn:focus{color:#2d2d2d}.driver-popover-title[style*=block]+.driver-popover-description{margin-top:5px}.driver-popover-description{zoom:1;margin-bottom:0;font-size:14px;font-weight:400;line-height:1.5}.driver-popover-footer{text-align:right;zoom:1;justify-content:space-between;align-items:center;margin-top:15px;display:flex}.driver-popover-progress-text{color:#727272;zoom:1;font-size:13px;font-weight:400}.driver-popover-footer-btn{all:unset;box-sizing:border-box;color:#2d2d2d;cursor:pointer;zoom:1;background-color:#fff;border:1px solid #ccc;border-radius:3px;outline:0;padding:3px 7px;font-size:12px;line-height:1.3;text-decoration:none;display:inline-block}.driver-popover-footer .driver-popover-btn-disabled{opacity:.5;pointer-events:none}.driver-popover-footer-btn:hover,.driver-popover-footer-btn:focus{background-color:#f7f7f7}.driver-popover-navigation-btns{flex-grow:1;justify-content:flex-end;display:flex}.driver-popover-navigation-btns button+button{margin-left:4px}.driver-popover-arrow{content:"";border:5px solid #fff;position:absolute}.driver-popover-arrow-side-over{display:none}.driver-popover-arrow-side-left{border-top-color:#0000;border-bottom-color:#0000;border-right-color:#0000;left:100%}.driver-popover-arrow-side-right{border-top-color:#0000;border-bottom-color:#0000;border-left-color:#0000;right:100%}.driver-popover-arrow-side-top{border-bottom-color:#0000;border-left-color:#0000;border-right-color:#0000;top:100%}.driver-popover-arrow-side-bottom{border-top-color:#0000;border-left-color:#0000;border-right-color:#0000;bottom:100%}.driver-popover-arrow-side-center,.driver-popover-arrow-none{display:none}.driver-active .driver-overlay{pointer-events:none}.driver-active.driver-no-scroll{overflow:hidden}.driver-active *{pointer-events:none}.driver-active .driver-active-element,.driver-active .driver-active-element *,.driver-popover,.driver-popover *{pointer-events:auto}@keyframes animate-fade-in{0%{opacity:0}to{opacity:1}}.driver-fade .driver-overlay{animation:animate-fade-in var(--driver-animation-duration,.4s) ease-in-out}.driver-fade .driver-popover{animation:animate-fade-in var(--driver-animation-duration,.4s)}.driver-active-element-parent-no-scroll{overflow:hidden!important}.driver-no-interaction,.driver-no-interaction *{pointer-events:none!important}
+
+  /* === Guia Coplan (kit) === */
+  /* Guia Coplan v0.1, visual conforme Coplan Design System v2.0
+   (botão de ícone do cabeçalho, dropdown do cabeçalho, toast e modal). */
+.guia-coplan{position:relative;display:inline-block;font-family:"Exo 2",ui-sans-serif,system-ui,sans-serif}
+.guia-coplan--flutuante{position:fixed;right:24px;bottom:24px;z-index:9990}
+.guia-coplan__botao{width:40px;height:40px;border-radius:50%;border:1px solid #E0E0E1;background:#1F4993;color:#FFFFFF;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:background .15s ease,color .15s ease}
+.guia-coplan__botao:hover{background:#75C566;border-color:#75C566;color:#FFFFFF}
+.guia-coplan__botao:focus-visible{outline:2px solid #75C566;outline-offset:2px}
+.guia-coplan__menu{position:absolute;right:0;top:calc(100% + 10px);min-width:230px;background:#FFFFFF;border:1px solid #E0E0E1;border-radius:12px;box-shadow:0 12px 28px rgba(10,26,46,.15);padding:8px;display:grid;gap:2px;z-index:9991}
+.guia-coplan__menu[hidden]{display:none}
+.guia-coplan--flutuante .guia-coplan__menu{top:auto;bottom:calc(100% + 10px)}
+.guia-coplan__menu-titulo{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:#8A8A8D;padding:6px 10px 8px}
+.guia-coplan__menu button{all:unset;box-sizing:border-box;display:flex;align-items:center;gap:10px;font:400 13px "Exo 2",ui-sans-serif,system-ui,sans-serif;color:#0A1A2E;padding:9px 10px;border-radius:8px;cursor:pointer;transition:background .15s ease,color .15s ease}
+.guia-coplan__menu button:hover,.guia-coplan__menu button:focus-visible{background:#75C566;color:#FFFFFF}
+.guia-coplan__toast{position:fixed;top:24px;right:24px;z-index:1000000001;max-width:340px;background:#1F4993;color:#FFFFFF;border-radius:8px;box-shadow:0 8px 24px rgba(10,26,46,.25);padding:16px;font:600 13px "Exo 2",ui-sans-serif,system-ui,sans-serif}
+.guia-coplan__toast code{font-family:ui-monospace,Menlo,Consolas,monospace;font-weight:400;word-break:break-all}
+
+/* Popover do Driver.js no padrão do modal Coplan */
+.driver-popover.guia-coplan-popover{font-family:"Exo 2",ui-sans-serif,system-ui,sans-serif;color:#0A1A2E;background:#FFFFFF;border-radius:12px;padding:20px;max-width:340px;box-shadow:0 10px 30px rgba(0,0,0,.2)}
+.guia-coplan-popover .driver-popover-title{font-size:18px;font-weight:600;color:#1F4993;line-height:1.3}
+.guia-coplan-popover .driver-popover-description{font-size:14px;line-height:1.5;color:#0A1A2E}
+.guia-coplan-popover .driver-popover-progress-text{font-size:12px;color:#8A8A8D}
+.guia-coplan-popover .driver-popover-footer{margin-top:16px}
+.guia-coplan-popover .driver-popover-footer-btn{font:500 13.5px "Exo 2",ui-sans-serif,system-ui,sans-serif;height:36px;padding:0 16px;border-radius:8px;border:1px solid #E0E0E1;background:#FFFFFF;color:#8A8A8D;text-shadow:none;display:inline-flex;align-items:center}
+.guia-coplan-popover .driver-popover-footer-btn:hover{background:#F0F2F8}
+.guia-coplan-popover .driver-popover-next-btn{background:#1F4993;border-color:#1F4993;color:#FFFFFF}
+.guia-coplan-popover .driver-popover-next-btn:hover{background:#173a76}
+.guia-coplan-popover .driver-popover-footer-btn.guia-desabilitado{opacity:.5;pointer-events:none}
+.guia-coplan-popover .driver-popover-close-btn{color:#8A8A8D}
+.guia-coplan-popover .driver-popover-close-btn:hover{color:#EF4444}
+.guia-coplan-popover .guia-aviso{display:block;margin-top:10px;padding:10px 12px;border-radius:8px;background:#FFF3D6;color:#8A6100;font-weight:600;font-size:12.5px}
+
+  .demo-top .guia-coplan__botao{background:#fff;color:var(--muted);border-color:var(--border);}
+  .demo-top .guia-coplan__botao:hover{background:var(--accent);border-color:var(--accent);color:#fff;}
+</style>
+</head>
+<body>
+
+<aside id="sidebar" aria-label="Menu principal">
+  <div class="brand"><div class="brand-logo"><svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2932.78 2038.08"> <path fill="#75c566" d="M1619.26,1065.38c62.83-124.6,120.94-243.44,177.48-364.89,37.17-79.05,72.76-151.83,108.37-223.55,65.44-129.83,195.27-214.65,335.06-215.18,117.8,0,227.73,40.84,309.92,115.18,78,70.15,120.94,163.34,120.94,261.76v760.68c0,207.84-193.18,376.94-430.86,376.94-117.79,0-227.74-40.83-309.93-115.18-78-70.15-120.93-163.33-120.93-261.76v-24.61l-184.28,318.83c32.98,59.68,76.96,114.12,129.83,161.77,129.83,117.79,302.07,182.71,485.31,182.71,381.65,0,692.62-286.36,692.62-638.7v-760.68c0-173.28-73.82-335.58-207.32-455.99C2595.64,64.92,2423.39,0,2235.44,0c-234.01,1.05-454.94,142.4-563.84,359.67-37.17,73.29-73.81,148.68-112.03,229.82-86.38,185.85-176.96,364.89-282.18,572.74-50.27,99.47-103.14,204.7-160.19,318.82-50.79,101.56-128.8,183.76-219.36,230.35-64.92,32.98-131.93,48.69-200.51,46.07-202.09-7.33-383.22-171.19-435.57-391.6v-696.81c0-224.59,182.71-407.3,407.3-407.3h308.87V0h-308.87C299.98,0,0,299.98,0,669.07v725.09l2.62,13.61c72.77,342.38,361.23,599.96,685.29,611.47,114.13,4.19,224.59-21.47,329.29-75.38,134.03-68.58,243.45-178.53,319.88-318.83,5.24-8.89,9.94-17.8,14.66-27.22,56.54-113.61,109.41-218.31,159.67-317.26,37.7-74.86,73.29-146.06,107.84-215.16Z"/> </svg></div><div class="brand-text"><b>Guia Coplan</b><span>Novo SAT · Prova de conceito</span></div></div>
+  <nav id="nav">
+    <div class="navgroup">
+      <div class="navgroup-title">Visão geral</div>
+      <a data-page="inicio" class="active" href="#inicio"><span class="ic"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" /><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></svg></span><span class="lbl">Início</span></a>
+      <a data-page="demo" href="#demo"><span class="ic"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" /></svg></span><span class="lbl">Demonstração</span></a>
+    </div>
+    <div class="navgroup">
+      <div class="navgroup-title">Implementação</div>
+      <a data-page="como-funciona" href="#como-funciona"><span class="ic"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z" /><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12" /><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17" /></svg></span><span class="lbl">Como funciona</span></a>
+      <a data-page="genexus" href="#genexus"><span class="ic"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M15.39 4.39a1 1 0 0 0 1.68-.474 2.5 2.5 0 1 1 3.014 3.015 1 1 0 0 0-.474 1.68l1.683 1.682a2.414 2.414 0 0 1 0 3.414L19.61 15.39a1 1 0 0 1-1.68-.474 2.5 2.5 0 1 0-3.014 3.015 1 1 0 0 1 .474 1.68l-1.683 1.682a2.414 2.414 0 0 1-3.414 0L8.61 19.61a1 1 0 0 0-1.68.474 2.5 2.5 0 1 1-3.014-3.015 1 1 0 0 0 .474-1.68l-1.683-1.682a2.414 2.414 0 0 1 0-3.414L4.39 8.61a1 1 0 0 1 1.68.474 2.5 2.5 0 1 0 3.014-3.015 1 1 0 0 1-.474-1.68l1.683-1.682a2.414 2.414 0 0 1 3.414 0z" /></svg></span><span class="lbl">Passo a passo no GeneXus</span></a>
+      <a data-page="codigo" href="#codigo"><span class="ic"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="m16 18 6-6-6-6" /><path d="m8 6-6 6 6 6" /></svg></span><span class="lbl">Código</span></a>
+    </div>
+    <div class="navgroup">
+      <div class="navgroup-title">Validação</div>
+      <a data-page="validacao" href="#validacao"><span class="ic"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M13 5h8" /><path d="M13 12h8" /><path d="M13 19h8" /><path d="m3 17 2 2 4-4" /><path d="m3 7 2 2 4-4" /></svg></span><span class="lbl">O que validar</span></a>
+      <a data-page="riscos" href="#riscos"><span class="ic"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /><path d="M12 9v4" /><path d="M12 17h.01" /></svg></span><span class="lbl">Riscos e perguntas</span></a>
+      <a data-page="fontes" href="#fontes"><span class="ic"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M12 5v16" /><path d="M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z" /></svg></span><span class="lbl">Fontes</span></a>
+    </div>
+  </nav>
+</aside>
+<div class="aside-backdrop" id="asideBackdrop"></div>
+
+<div class="shell-right">
+<header class="doc-topbar">
+  <div class="doc-topbar-left">
+    <button class="shell-collapse-btn" id="docCollapseBtn" type="button" title="Fechar Menu" aria-label="Recolher ou expandir menu"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/><path d="M14 9l-2 3 2 3" id="docCollapseArrow"/></svg></button>
+    <div class="doc-search-wrap">
+      <button class="doc-search" id="docSearchBox" type="button" aria-label="Buscar seção"><span class="ic"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="m21 21-4.34-4.34" /><circle cx="11" cy="11" r="8" /></svg></span><span class="txt">O que você procura?</span><kbd>⌘K</kbd></button>
+      <div class="doc-search-panel" id="docSearchPanel">
+        <input type="text" id="docSearchInput" placeholder="Buscar seção deste documento..." autocomplete="off" aria-label="Buscar seção">
+        <div id="docSearchResults"></div>
+      </div>
+    </div>
+  </div>
+  <div class="hdr-context-wrap">
+    <button class="hdr-context-btn" type="button" data-dd="hdrContextPanel">
+      <span class="hdr-context-brasao"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 8.4 8 11 4.6-2.6 8-6 8-11V5z"/><path d="M9 12l2 2 4-4"/></svg></span>
+      <span class="hdr-context-text"><b>SEFAZ Salvador</b><span>Novo SAT · Tributário</span></span>
+      <span class="ic" style="width:14px;height:14px"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="m6 9 6 6 6-6" /></svg></span>
+    </button>
+    <div class="hdr-dropdown" id="hdrContextPanel">
+      <div class="hdr-dropdown-title">Contexto deste documento</div>
+      <dl class="hdr-kv">
+        <dt>Cliente</dt><dd>Secretaria Municipal da Fazenda de Salvador</dd>
+        <dt>Produto</dt><dd>Novo SAT (GeneXus 17/18)</dd>
+        <dt>Etapa</dt><dd>Passagem de conhecimento, jan/2027</dd>
+        <dt>Documento</dt><dd>Guia Coplan v0.1</dd>
+        <dt>Status</dt><dd><span class="status-chip status-pending">Aguardando validação técnica</span></dd>
+      </dl>
+    </div>
+  </div>
+  <div class="doc-topbar-right">
+    <div class="hdr-icon-wrap hide-md">
+      <a class="hdr-icon-btn" title="Fale conosco pelo WhatsApp" aria-label="Fale conosco pelo WhatsApp" href="https://api.whatsapp.com/send/?phone=5565981617878&amp;text&amp;type=phone_number&amp;app_absent=0" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2.2c-5.4 0-9.8 4.4-9.8 9.8 0 1.7.5 3.4 1.3 4.8L2 22l5.3-1.4c1.4.8 3 1.2 4.7 1.2 5.4 0 9.8-4.4 9.8-9.8s-4.4-9.8-9.8-9.8zm0 17.9c-1.5 0-3-.4-4.2-1.2l-.3-.2-3.1.8.8-3-.2-.3c-.9-1.3-1.3-2.8-1.3-4.4 0-4.5 3.7-8.2 8.2-8.2s8.2 3.7 8.2 8.2-3.6 8.3-8.1 8.3zm4.5-6.2c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.3-.7.8-.8 1-.2.2-.3.2-.5.1-.2-.1-1-.4-2-1.2-.7-.6-1.2-1.4-1.4-1.7-.1-.2 0-.4.1-.5.1-.1.3-.3.4-.5.1-.1.2-.3.2-.4.1-.2 0-.3 0-.4-.1-.1-.6-1.5-.9-2-.2-.5-.5-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2s.9 2.4 1 2.6c.1.2 1.8 2.7 4.3 3.7.6.3 1.1.4 1.4.6.6.2 1.1.1 1.6.1.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2-.1-.1-.3-.2-.5-.3z"/></svg></a>
+    </div>
+    <div class="hdr-icon-wrap hide-md">
+      <a class="hdr-icon-btn" title="ClienteMAIS, suporte ao usuário" aria-label="ClienteMAIS, suporte ao usuário" href="https://cliente.coplanmt.com.br/clientemais_clientemais/servlet/login_coplan" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14v-3a9 9 0 0 1 18 0v3"/><path d="M21 15a2 2 0 0 1-2 2h-1v-6h1a2 2 0 0 1 2 2z"/><path d="M3 15a2 2 0 0 0 2 2h1v-6H5a2 2 0 0 0-2 2z"/><path d="M18 17v1a3 3 0 0 1-3 3h-3"/></svg></a>
+    </div>
+    <div class="hdr-icon-wrap">
+      <button class="hdr-icon-btn" type="button" data-dd="hdrOcorrenciasPanel" title="Ocorrências" aria-label="Ocorrências: 5 pontos a validar"><span class="ic ic-18"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M10.268 21a2 2 0 0 0 3.464 0" /><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326" /></svg></span><span class="hdr-badge">5</span></button>
+      <div class="hdr-dropdown hdr-dropdown-wide" id="hdrOcorrenciasPanel">
+        <div class="hdr-occ-header"><span class="hdr-dropdown-title" style="padding:0">Ocorrências</span><span class="status-chip status-pending">5 a validar</span></div>
+        <div class="hdr-occurrence"><b>Prova de conceito</b><span>Master Page carrega os scripts em todas as telas?</span><a class="hdr-occ-link" data-go="validacao">Ver no documento ›</a></div>
+        <div class="hdr-occurrence"><b>Prova de conceito</b><span>IDs dos controles se mantêm entre builds?</span><a class="hdr-occ-link" data-go="validacao">Ver no documento ›</a></div>
+        <div class="hdr-occurrence"><b>Prova de conceito</b><span>Formato real da URL das telas (Java ou .NET)?</span><a class="hdr-occ-link" data-go="validacao">Ver no documento ›</a></div>
+        <div class="hdr-occurrence"><b>Prova de conceito</b><span>Eventos do fluxo piloto rodam por AJAX?</span><a class="hdr-occ-link" data-go="validacao">Ver no documento ›</a></div>
+        <div class="hdr-occurrence"><b>Prova de conceito</b><span>Política de segurança (CSP) permite script local?</span><a class="hdr-occ-link" data-go="validacao">Ver no documento ›</a></div>
+      </div>
+    </div>
+    <div class="hdr-icon-wrap">
+      <button class="hdr-icon-btn hdr-avatar-btn" type="button" data-dd="hdrUserPanel" title="Autor" aria-label="Autor do documento"><span class="ic ic-18"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg></span></button>
+      <div class="hdr-dropdown" id="hdrUserPanel">
+        <div class="hdr-dropdown-title">Autor</div>
+        <div class="hdr-dropdown-item static"><span class="ic"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg></span>Diego Loureiro · Líder de Inovação</div>
+        <div class="hdr-dropdown-item static"><span class="ic"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><circle cx="12" cy="12" r="10" /><path d="M12 6v6l4 2" /></svg></span>Atualizado em 28/09/2026</div>
+        <a class="hdr-dropdown-item" href="https://diegoloureiro84.github.io/coplan-design-system/" target="_blank" rel="noopener"><span class="ic"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M15 3h6v6" /><path d="M10 14 21 3" /><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg></span>Coplan Design System</a>
+      </div>
+    </div>
+    <div class="hdr-icon-wrap">
+      <button class="hdr-icon-btn" type="button" data-dd="hdrSistemasPanel" title="Sistemas" aria-label="Sistemas"><span class="ic ic-18"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M4 5h16" /><path d="M4 12h16" /><path d="M4 19h16" /></svg></span></button>
+      <div class="hdr-dropdown" id="hdrSistemasPanel">
+        <div class="hdr-dropdown-title">Sistemas</div>
+        <div class="hdr-dropdown-item static">Administrativo</div>
+        <div class="hdr-dropdown-item static">Central</div>
+        <div class="hdr-dropdown-item static">Contábil</div>
+        <div class="hdr-dropdown-item static">Educação</div>
+        <div class="hdr-dropdown-item static">Ouvidoria</div>
+        <div class="hdr-dropdown-item static">Planejamento</div>
+        <div class="hdr-dropdown-item static">Portal da Transparência</div>
+        <div class="hdr-dropdown-item static">RH</div>
+        <div class="hdr-dropdown-item static">Tributário</div>
+        <div class="hdr-dropdown-item static">Gestão de Protocolos</div>
+      </div>
+    </div>
+  </div>
+</header>
+<div class="doc-search-backdrop" id="docSearchBackdrop"></div>
+
+<main id="main">
+
+<!-- ================= INÍCIO ================= -->
+<div class="page active" id="page-inicio" data-cat="Visão geral">
+  <div class="eyebrow">Visão geral</div>
+  <div class="pattern-header">
+    <div>
+      <h1>Guia Coplan no Novo SAT</h1>
+      <p>Ajuda por tela e roteiros guiados rodando por cima das telas GeneXus já existentes.</p>
+    </div>
+    <button class="btn btn-primary" type="button" data-go="demo"><span class="ic"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" /></svg></span>Ver demonstração</button>
+  </div>
+  <div class="chips">
+    <span class="status-chip status-info">SEFAZ Salvador · Novo SAT</span>
+    <span class="status-chip status-pending">Prova de conceito · aguardando validação técnica</span>
+    <span class="chip">v0.1 · 28/09/2026</span>
+  </div>
+  <p class="lead">Uma camada de JavaScript que mostra, na própria tela do sistema, o que preencher e em que ordem. Ela espera o usuário executar cada ação e abre o manual da tela certa. No GeneXus, a mudança é incluir arquivos na Master Page. Nenhuma transação, web panel ou regra de negócio é alterada.</p>
+
+  <div class="kpis">
+    <div class="kpi"><b>1</b><span>evento alterado no GeneXus (Master Page, Start)</span></div>
+    <div class="kpi"><b>0</b><span>transações ou web panels modificados</span></div>
+    <div class="kpi"><b>1 dia</b><span>estimado para a prova de conceito</span></div>
+    <div class="kpi"><b>3</b><span>fluxos no piloto, não os 12 macroprocessos</span></div>
+  </div>
+
+  <h2 class="sub">Por que entra na capacitação</h2>
+  <p style="max-width:720px;font-size:14.5px">O contrato prevê 368h de passagem de conhecimento em janeiro de 2027, com avaliação ao final de cada módulo e repetição sem ônus quando o resultado não é satisfatório. A prática guiada em laboratório é a maior parte de cada dia de aula. O Guia Coplan atua nessa etapa e continua disponível depois que o instrutor vai embora.</p>
+
+  <h2 class="sub">Três camadas da proposta</h2>
+  <div class="grid3">
+    <div class="card">
+      <div class="card-title"><span class="ic"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M13 5h8" /><path d="M13 12h8" /><path d="M13 19h8" /><path d="m3 17 2 2 4-4" /><path d="m3 7 2 2 4-4" /></svg></span>A · Evidência de aceite</div>
+      <p>Presença, avaliações, certificados e relatório por módulo em fluxo digital. O Guia registra quem concluiu cada roteiro, o que vira evidência prática.</p>
+      <span class="chip">Fora do GeneXus</span>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="ic"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M12 5v16" /><path d="M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z" /></svg></span>B · Manual por tela</div>
+      <p>Manual Operacional web, organizado pelos 12 macroprocessos. O botão de ajuda abre a página do manual da tela aberta.</p>
+      <span class="chip">Conteúdo fora do GeneXus</span>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="ic"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><circle cx="6" cy="19" r="3" /><path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15" /><circle cx="18" cy="5" r="3" /></svg></span>C · Roteiro guiado</div>
+      <p>Passo a passo sobre a tela real, que só avança quando o usuário faz a ação. Piloto em 3 fluxos de alto volume.</p>
+      <span class="status-chip status-active">Detalhado neste documento</span>
+    </div>
+  </div>
+  <div class="note"><b>Para quem é este documento:</b> para a equipe GeneXus avaliar se a abordagem é viável no Novo SAT, antes de qualquer compromisso com o cliente. O menu lateral segue a ordem de leitura sugerida.</div>
+  <footer class="docfooter"><span>Coplan Tecnologia · Inovação · Diego Loureiro</span><span>Guia Coplan v0.1</span></footer>
+</div>
+
+<!-- ================= DEMONSTRAÇÃO ================= -->
+<div class="page" id="page-demo" data-cat="Visão geral">
+  <div class="eyebrow">Visão geral</div>
+  <div class="pattern-header">
+    <div>
+      <h1>Demonstração</h1>
+      <p>Roteiro guiado numa tela ilustrativa, com o mesmo motor e o mesmo JSON da seção Código.</p>
+    </div>
+    <button class="btn btn-ghost" type="button" data-go="inicio"><span class="ic"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="m15 18-6-6 6-6" /></svg></span>Voltar ao Início</button>
+  </div>
+  <p class="lead">Os IDs dos campos imitam o padrão do HTML gerado pelo GeneXus. Clique no botão <b>?</b> no canto da tela ilustrativa e escolha <i>Me guie nesta tela</i>, ou use o botão abaixo. Nos passos 2, 3 e 5 o roteiro só avança depois que você executa a ação.</p>
+  <div class="btnrow">
+    <button class="btn btn-primary" id="btnIniciarDemo" type="button"><span class="ic"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" /></svg></span>Iniciar roteiro</button>
+    <button class="btn btn-outline" id="btnIds" type="button" aria-pressed="false"><span class="ic"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="m16 18 6-6-6-6" /><path d="m8 6-6 6 6 6" /></svg></span>Mostrar IDs dos controles</button>
+    <button class="btn btn-outline" id="btnLimpar" type="button"><span class="ic"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" /><path d="M3 3v5h5" /></svg></span>Limpar tela</button>
+  </div>
+
+  <div class="demo-app" id="demoApp">
+    <div class="demo-strip"></div>
+    <div class="demo-top">
+      <div><b>Novo SAT · Tributário</b><span>Tela ilustrativa · dados fictícios</span></div>
+      <div id="demoBarAcoes"></div>
+    </div>
+    <div class="demo-body">
+      <div class="pattern-header" style="margin-bottom:16px">
+        <div><h1>Simulação de Parcelamento</h1><p>Atendimento ao Contribuinte › Parcelamento</p></div>
+      </div>
+      <div class="form-card" id="TABLECONTRIBUINTE">
+        <div class="form-card-title">Contribuinte <span class="idtag">#TABLECONTRIBUINTE</span></div>
+        <div class="frow">
+          <div class="fld"><label for="vCPFCNPJ">CPF/CNPJ <span class="idtag">#vCPFCNPJ</span></label><input class="inp" id="vCPFCNPJ" type="text" inputmode="numeric" placeholder="000.000.000-00" size="18"></div>
+          <div class="fld" style="flex:1;min-width:200px"><label for="vNOME">Nome / Razão social <span class="idtag">#vNOME</span></label><input class="inp ro" id="vNOME" type="text" readonly tabindex="-1"></div>
+        </div>
+      </div>
+      <div class="form-card">
+        <div class="form-card-title">Débitos em aberto <span class="idtag">#GriddebitosContainerDiv</span></div>
+        <div class="tbl-wrap" id="GriddebitosContainerDiv">
+          <table class="demo-table">
+            <thead><tr><th style="width:48px"><span class="sr-only">Selecionar</span></th><th>Tributo</th><th class="num">Exercício</th><th>Situação</th><th class="num">Valor atualizado</th></tr></thead>
+            <tbody>
+              <tr><td><input type="checkbox" id="vSELECIONADO_0001" data-v="1840.32" aria-label="Selecionar IPTU 2024"></td><td>IPTU</td><td class="num">2024</td><td><span class="status-chip status-error">Vencido</span></td><td class="num">R$ 1.840,32</td></tr>
+              <tr><td><input type="checkbox" id="vSELECIONADO_0002" data-v="2105.90" aria-label="Selecionar IPTU 2025"></td><td>IPTU</td><td class="num">2025</td><td><span class="status-chip status-error">Vencido</span></td><td class="num">R$ 2.105,90</td></tr>
+              <tr><td><input type="checkbox" id="vSELECIONADO_0003" data-v="612.45" aria-label="Selecionar Taxa de Resíduos 2025"></td><td>Taxa de Resíduos</td><td class="num">2025</td><td><span class="status-chip status-error">Vencido</span></td><td class="num">R$ 612,45</td></tr>
+              <tr><td><input type="checkbox" id="vSELECIONADO_0004" disabled aria-label="ISS 2022 em dívida ativa ajuizada, não selecionável"></td><td>ISS Autônomo</td><td class="num">2022</td><td><span class="status-chip status-pending">Dívida ativa ajuizada</span></td><td class="num">R$ 3.420,00</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="form-card" id="TABLECONDICOES">
+        <div class="form-card-title">Condições <span class="idtag">#TABLECONDICOES</span></div>
+        <div class="frow">
+          <div class="fld"><label for="vQTDPARCELAS">Nº de parcelas <span class="idtag">#vQTDPARCELAS</span></label><select class="inp" id="vQTDPARCELAS"><option>2</option><option>6</option><option selected>12</option><option>24</option></select></div>
+          <div class="fld"><label for="vPERCENTRADA">Entrada <span class="idtag">#vPERCENTRADA</span></label><select class="inp" id="vPERCENTRADA"><option>10%</option><option selected>20%</option></select></div>
+          <button class="btn btn-primary" type="button" id="BTNSIMULAR"><span class="ic"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="m21 21-4.34-4.34" /><circle cx="11" cy="11" r="8" /></svg></span>Simular</button>
+          <button class="btn btn-outline" type="button" id="BTNGERARTERMO" disabled><span class="ic"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /><path d="M14 2v5a1 1 0 0 0 1 1h5" /><path d="M10 12.5 8 15l2 2.5" /><path d="m14 12.5 2 2.5-2 2.5" /></svg></span>Gerar termo</button>
+        </div>
+        <div class="resultado" id="TXTRESULTADO">Selecione ao menos um débito e clique em Simular.</div>
+      </div>
+    </div>
+    <div class="demo-foot">Tela ilustrativa. Não é o layout real do Novo SAT. Contribuinte, valores e regras são fictícios.</div>
+  </div>
+
+  <h2 class="sub">Eventos registrados pelo Guia</h2>
+  <div class="card trace">
+    <p style="font-size:13px;color:var(--muted)">É o que a função <code>registrar</code> recebe. Em produção pode alimentar o relatório de evidências da capacitação (Camada A).</p>
+    <ol id="trace"><li>Nenhum evento ainda.</li></ol>
+  </div>
+</div>
+
+<!-- ================= COMO FUNCIONA ================= -->
+<div class="page" id="page-como-funciona" data-cat="Implementação">
+  <div class="eyebrow">Implementação</div>
+  <div class="pattern-header">
+    <div><h1>Como funciona</h1><p>O que roda onde, e por que o GeneXus quase não muda.</p></div>
+    <button class="btn btn-ghost" type="button" data-go="inicio"><span class="ic"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="m15 18-6-6 6-6" /></svg></span>Voltar ao Início</button>
+  </div>
+  <div class="diagram" role="img" aria-label="Fluxo: a Master Page do GeneXus inclui três scripts; o guia-coplan.js descobre a tela pela URL, busca o JSON do roteiro e usa o Driver.js para destacar os controles; opcionalmente registra eventos.">
+    <svg viewBox="0 0 1000 300" xmlns="http://www.w3.org/2000/svg" font-family="Exo 2, ui-sans-serif, system-ui, sans-serif">
+      <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#8A8A8D"/></marker></defs>
+      <rect x="10" y="20" width="290" height="260" rx="12.8" fill="#F5F7FC" stroke="#E0E0E1"/>
+      <text x="30" y="50" font-size="14" font-weight="700" fill="#1F4993">Aplicação GeneXus (já existe)</text>
+      <rect x="30" y="68" width="250" height="56" rx="10.8" fill="#FFFFFF" stroke="#E0E0E1"/>
+      <text x="46" y="92" font-size="14" font-weight="600" fill="#0A1A2E">Web Panel / Transação</text>
+      <text x="46" y="111" font-size="12" fill="#8A8A8D">HTML com IDs: vCPFCNPJ, BTNSIMULAR</text>
+      <rect x="30" y="140" width="250" height="120" rx="10.8" fill="#FFFFFF" stroke="#75C566" stroke-width="2"/>
+      <text x="46" y="164" font-size="14" font-weight="600" fill="#0A1A2E">Master Page · Event Start</text>
+      <text x="46" y="186" font-size="12" fill="#57575A">1. driver.js.iife.js</text>
+      <text x="46" y="206" font-size="12" fill="#57575A">2. guia-config.js</text>
+      <text x="46" y="226" font-size="12" fill="#57575A">3. guia-coplan.js</text>
+      <text x="46" y="248" font-size="12" font-weight="600" fill="#01814E">Única mudança no GeneXus</text>
+      <rect x="360" y="60" width="280" height="180" rx="12.8" fill="#FFFFFF" stroke="#1F4993" stroke-width="2"/>
+      <text x="380" y="90" font-size="14" font-weight="700" fill="#1F4993">guia-coplan.js no navegador</text>
+      <text x="380" y="118" font-size="12" fill="#0A1A2E">a. Lê a URL e descobre a tela</text>
+      <text x="380" y="140" font-size="12" fill="#0A1A2E">b. Busca roteiros/&lt;tela&gt;.json</text>
+      <text x="380" y="162" font-size="12" fill="#0A1A2E">c. Desenha o botão ? na página</text>
+      <text x="380" y="184" font-size="12" fill="#0A1A2E">d. Driver.js destaca cada controle</text>
+      <text x="380" y="206" font-size="12" fill="#0A1A2E">e. Espera clique ou preenchimento</text>
+      <text x="380" y="228" font-size="12" fill="#0A1A2E">f. Registra eventos (opcional)</text>
+      <rect x="700" y="20" width="290" height="120" rx="12.8" fill="#F5F7FC" stroke="#E0E0E1"/>
+      <text x="720" y="50" font-size="14" font-weight="700" fill="#1F4993">Conteúdo (fora do GeneXus)</text>
+      <text x="720" y="76" font-size="12" fill="#0A1A2E">roteiros/*.json, 1 arquivo por tela</text>
+      <text x="720" y="98" font-size="12" fill="#0A1A2E">Manual Operacional web</text>
+      <text x="720" y="120" font-size="12" fill="#8A8A8D">Mantido por analistas do Tributário</text>
+      <rect x="700" y="160" width="290" height="120" rx="12.8" fill="#F5F7FC" stroke="#E0E0E1"/>
+      <text x="720" y="190" font-size="14" font-weight="700" fill="#1F4993">Evidência (opcional)</text>
+      <text x="720" y="216" font-size="12" fill="#0A1A2E">roteiro iniciado / concluído</text>
+      <text x="720" y="238" font-size="12" fill="#0A1A2E">passo e ação executada</text>
+      <text x="720" y="260" font-size="12" fill="#8A8A8D">Alimenta a Camada A</text>
+      <path d="M280 200 L355 170" stroke="#8A8A8D" stroke-width="1.5" fill="none" marker-end="url(#ar)"/>
+      <path d="M640 110 L695 85" stroke="#8A8A8D" stroke-width="1.5" fill="none" marker-end="url(#ar)"/>
+      <path d="M640 200 L695 220" stroke="#8A8A8D" stroke-width="1.5" fill="none" marker-end="url(#ar)"/>
+      <path d="M360 150 C330 120 310 100 285 96" stroke="#1F4993" stroke-width="1.5" stroke-dasharray="5 4" fill="none" marker-end="url(#ar)"/>
+      <text x="300" y="112" font-size="11" fill="#1F4993">lê o DOM</text>
+    </svg>
+  </div>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title"><span class="ic"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M15.39 4.39a1 1 0 0 0 1.68-.474 2.5 2.5 0 1 1 3.014 3.015 1 1 0 0 0-.474 1.68l1.683 1.682a2.414 2.414 0 0 1 0 3.414L19.61 15.39a1 1 0 0 1-1.68-.474 2.5 2.5 0 1 0-3.014 3.015 1 1 0 0 1 .474 1.68l-1.683 1.682a2.414 2.414 0 0 1-3.414 0L8.61 19.61a1 1 0 0 0-1.68.474 2.5 2.5 0 1 1-3.014-3.015 1 1 0 0 0 .474-1.68l-1.683-1.682a2.414 2.414 0 0 1 0-3.414L4.39 8.61a1 1 0 0 1 1.68.474 2.5 2.5 0 1 0 3.014-3.015 1 1 0 0 1-.474-1.68l1.683-1.682a2.414 2.414 0 0 1 3.414 0z" /></svg></span>Por que não mexe no GeneXus</div>
+      <ul>
+        <li>O GeneXus gera HTML comum. O script só lê esse HTML depois que a página carrega.</li>
+        <li>O alvo de cada passo é um seletor CSS, normalmente o <code>id</code> que o GeneXus já gera para o controle.</li>
+        <li>Os eventos são ouvidos no <code>document</code>, então continuam funcionando quando o GeneXus redesenha um trecho da tela via AJAX.</li>
+        <li>O Driver.js espera até 4 segundos o controle aparecer (<code>waitForElement</code>), o que cobre telas que carregam por partes.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="ic"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z" /><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12" /><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17" /></svg></span>Quem mantém o quê</div>
+      <ul>
+        <li><b>Dev GeneXus:</b> inclui os scripts na Master Page uma vez e evita renomear controles que têm roteiro.</li>
+        <li><b>Inovação:</b> mantém o motor <code>guia-coplan.js</code> e o visual.</li>
+        <li><b>Analistas e instrutores:</b> escrevem os JSON dos roteiros e o manual. Não precisam compilar a KB.</li>
+        <li>Roteiro novo ou texto corrigido não exige build GeneXus, só publicar o JSON.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ================= GENEXUS ================= -->
+<div class="page" id="page-genexus" data-cat="Implementação">
+  <div class="eyebrow">Implementação</div>
+  <div class="pattern-header">
+    <div><h1>Passo a passo no GeneXus</h1><p>Prova de conceito em 1 dia, numa KB de desenvolvimento.</p></div>
+    <button class="btn btn-ghost" type="button" data-go="inicio"><span class="ic"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="m15 18-6-6 6-6" /></svg></span>Voltar ao Início</button>
+  </div>
+  <p class="lead">Os pontos marcados com <span class="status-chip status-pending">validar</span> são exatamente o que a prova de conceito precisa responder.</p>
+  <ol class="steps">
+    <li><div>
+      <h3>Copiar a pasta do kit para a aplicação publicada</h3>
+      <p>Copie a pasta <code>guia-coplan/</code> (estrutura em Código) para o diretório web onde a aplicação serve arquivos estáticos, de forma que <code>&lt;url-da-aplicação&gt;/guia-coplan/guia-coplan.js</code> abra no navegador.</p>
+      <p><span class="status-chip status-pending">validar</span> o diretório exato depende do gerador (Java ou .NET) e do deploy do ambiente. A pasta precisa entrar no pacote de homologação e produção.</p>
+    </div></li>
+    <li><div>
+      <h3>Incluir os scripts no evento Start da Master Page</h3>
+      <p>Usar <code>Form.JScriptSrc.Add()</code> para os scripts e <code>Form.HeaderRawHTML</code> para as folhas de estilo. Use caminho a partir da raiz do servidor, porque em Java a URL da tela fica dentro de <code>/servlet/</code> e um caminho relativo resolveria errado.</p>
+      <p><span class="status-chip status-pending">validar</span> se os arquivos incluídos na Master Page aparecem em todas as telas que a usam. Se o <code>JScriptSrc</code> não resolver o caminho, a alternativa comentada no código inclui as tags <code>&lt;script&gt;</code> pelo <code>HeaderRawHTML</code>.</p>
+    </div></li>
+    <li><div>
+      <h3>Confirmar que o Guia enxerga a tela</h3>
+      <p>Abra uma tela, abra o console (F12) e execute:</p>
+      <pre>GuiaCoplan.telaAtual()   // deve retornar o nome do objeto, ex.: "wpparcelamentosimulacao"</pre>
+      <p><span class="status-chip status-pending">validar</span> o formato da URL no ambiente. O motor trata <code>/objeto.aspx</code> (.NET) e <code>/servlet/com.pacote.objeto</code> (Java). Se for diferente, ajusta-se uma função.</p>
+    </div></li>
+    <li><div>
+      <h3>Mapear os controles com Alt+clique</h3>
+      <p>No console, ative o modo mapeamento e recarregue a página:</p>
+      <pre>localStorage.guiaCoplanMapear = '1'</pre>
+      <p>Com Alt+clique em qualquer campo, o seletor aparece na tela e é copiado. Em geral é o <code>id</code> gerado pelo GeneXus (variável com prefixo <code>v</code>, linha de grid com sufixo <code>_0001</code>).</p>
+      <p><span class="status-chip status-pending">validar</span> se esses IDs são estáveis entre builds. Eles derivam do nome do controle, então só devem mudar se o controle for renomeado ou estiver dentro de Web Component com prefixo variável.</p>
+    </div></li>
+    <li><div>
+      <h3>Escrever o roteiro da tela em JSON</h3>
+      <p>Crie <code>guia-coplan/roteiros/&lt;nome-da-tela&gt;.json</code>. Cada passo tem <code>alvo</code>, <code>titulo</code>, <code>texto</code> e, se quiser travar o avanço, <code>esperar</code> do tipo <code>preenchido</code>, <code>marcado</code> ou <code>clique</code>.</p>
+    </div></li>
+    <li><div>
+      <h3>Testar um passo que dispara evento no servidor</h3>
+      <p>Use <code>"esperar": {"tipo":"clique"}</code> num botão com evento GeneXus. Depois de cada build, rode no console:</p>
+      <pre>GuiaCoplan.verificar()   // tabela com cada passo e se o alvo foi encontrado</pre>
+      <p><span class="status-chip status-pending">validar</span> se o evento roda por AJAX (o roteiro segue) ou recarrega a página inteira (o roteiro fecha). No segundo caso, o piloto evita esse fluxo ou a v0.2 passa a retomar o roteiro após o recarregamento.</p>
+    </div></li>
+  </ol>
+</div>
+
+<!-- ================= CÓDIGO ================= -->
+<div class="page" id="page-codigo" data-cat="Implementação">
+  <div class="eyebrow">Implementação</div>
+  <div class="pattern-header">
+    <div><h1>Código</h1><p>O mesmo código que roda na demonstração. Cada bloco tem botão de copiar.</p></div>
+    <button class="btn btn-ghost" type="button" data-go="inicio"><span class="ic"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="m15 18-6-6 6-6" /></svg></span>Voltar ao Início</button>
+  </div>
+  <h2 class="sub" style="margin-top:0">Estrutura de pastas</h2>
+<pre class="tree">guia-coplan/
+├── vendor/
+│   ├── driver.js.iife.js     Driver.js 1.8.0, licença MIT (npm: driver.js)
+│   ├── driver.css
+│   └── DRIVER-LICENSE.txt
+├── guia-coplan.js            motor
+├── guia-coplan.css           visual no padrão Coplan
+├── guia-config.js            URLs do ambiente
+└── roteiros/
+    └── wpparcelamentosimulacao.json   1 arquivo por tela, nome = objeto GeneXus em minúsculas</pre>
+
+  <h2 class="sub">Arquivos</h2>
+  <details class="code" open>
+    <summary><b><span class="ic"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /><path d="M14 2v5a1 1 0 0 0 1 1h5" /><path d="M10 12.5 8 15l2 2.5" /><path d="m14 12.5 2 2.5-2 2.5" /></svg></span>Master Page · Event Start <span class="path">GeneXus 17/18</span></b><span style="display:flex;gap:8px;align-items:center"><button class="btn btn-sm copy" type="button" data-copy="c-gx"><span class="ic"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg></span>Copiar</button><span class="ic chev"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="m6 9 6 6 6-6" /></svg></span></span></summary>
+<pre id="c-gx">Event Start
+	// Guia Coplan: ajuda e roteiros guiados em todas as telas desta Master Page.
+	// Ajustar &quot;/novosat/&quot; ao contexto real da aplicação no servidor.
+	Form.JScriptSrc.Add(&quot;/novosat/guia-coplan/vendor/driver.js.iife.js&quot;)
+	Form.JScriptSrc.Add(&quot;/novosat/guia-coplan/guia-config.js&quot;)
+	Form.JScriptSrc.Add(&quot;/novosat/guia-coplan/guia-coplan.js&quot;)
+	Form.HeaderRawHTML += &#x27;&lt;link rel=&quot;stylesheet&quot; href=&quot;/novosat/guia-coplan/vendor/driver.css&quot;&gt;&#x27;
+	Form.HeaderRawHTML += &#x27;&lt;link rel=&quot;stylesheet&quot; href=&quot;/novosat/guia-coplan/guia-coplan.css&quot;&gt;&#x27;
+
+	// Alternativa, se o JScriptSrc não resolver o caminho no ambiente:
+	// Form.HeaderRawHTML += &#x27;&lt;script src=&quot;/novosat/guia-coplan/vendor/driver.js.iife.js&quot;&gt;&lt;/script&gt;&#x27;
+	// Form.HeaderRawHTML += &#x27;&lt;script src=&quot;/novosat/guia-coplan/guia-config.js&quot;&gt;&lt;/script&gt;&#x27;
+	// Form.HeaderRawHTML += &#x27;&lt;script src=&quot;/novosat/guia-coplan/guia-coplan.js&quot;&gt;&lt;/script&gt;&#x27;
+EndEvent</pre>
+  </details>
+  <details class="code">
+    <summary><b><span class="ic"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /><path d="M14 2v5a1 1 0 0 0 1 1h5" /><path d="M10 12.5 8 15l2 2.5" /><path d="m14 12.5 2 2.5-2 2.5" /></svg></span>guia-config.js <span class="path">guia-coplan/guia-config.js</span></b><span style="display:flex;gap:8px;align-items:center"><button class="btn btn-sm copy" type="button" data-copy="c-cfg"><span class="ic"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg></span>Copiar</button><span class="ic chev"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="m6 9 6 6 6-6" /></svg></span></span></summary>
+<pre id="c-cfg">/* Configuração do Guia Coplan para o ambiente. Carregar ANTES do guia-coplan.js. */
+window.GUIA_COPLAN_CONFIG = {
+  roteirosUrl: &#x27;/novosat/guia-coplan/roteiros/&#x27;,        // caminho a partir da raiz do servidor (ajustar ao contexto real)
+  manualUrl: &#x27;https://manual.exemplo.gov.br/novo-sat/#{tela}&#x27;, // trocar pela URL real do manual
+  montarBotaoEm: null,                                   // ex.: &#x27;#HEADER_ACTIONS&#x27;; null = botão flutuante
+  debug: false
+  // registrar: function (evento) { navigator.sendBeacon(&#x27;/api/guia-eventos&#x27;, JSON.stringify(evento)); }
+};</pre>
+  </details>
+  <details class="code">
+    <summary><b><span class="ic"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /><path d="M14 2v5a1 1 0 0 0 1 1h5" /><path d="M10 12a1 1 0 0 0-1 1v1a1 1 0 0 1-1 1 1 1 0 0 1 1 1v1a1 1 0 0 0 1 1" /><path d="M14 18a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1 1 1 0 0 1-1-1v-1a1 1 0 0 0-1-1" /></svg></span>Roteiro de exemplo <span class="path">roteiros/wpparcelamentosimulacao.json</span></b><span style="display:flex;gap:8px;align-items:center"><button class="btn btn-sm copy" type="button" data-copy="c-json"><span class="ic"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg></span>Copiar</button><span class="ic chev"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="m6 9 6 6 6-6" /></svg></span></span></summary>
+<pre id="c-json">{
+  &quot;tela&quot;: &quot;wpparcelamentosimulacao&quot;,
+  &quot;titulo&quot;: &quot;Simular parcelamento no atendimento&quot;,
+  &quot;macroprocesso&quot;: &quot;Parcelamento de Créditos Tributários e Não Tributários&quot;,
+  &quot;manual&quot;: &quot;parcelamento-simulacao&quot;,
+  &quot;passos&quot;: [
+    {
+      &quot;titulo&quot;: &quot;Simulação de parcelamento&quot;,
+      &quot;texto&quot;: &quot;Este roteiro conduz uma simulação completa, do contribuinte ao termo. Nada é gravado até o termo ser gerado.&quot;
+    },
+    {
+      &quot;alvo&quot;: &quot;#vCPFCNPJ&quot;,
+      &quot;titulo&quot;: &quot;Identifique o contribuinte&quot;,
+      &quot;texto&quot;: &quot;Informe o CPF ou CNPJ e confira o nome com o documento apresentado.&quot;,
+      &quot;esperar&quot;: { &quot;tipo&quot;: &quot;preenchido&quot;, &quot;mensagem&quot;: &quot;Informe o CPF/CNPJ para continuar.&quot; }
+    },
+    {
+      &quot;alvo&quot;: &quot;#GriddebitosContainerDiv&quot;,
+      &quot;titulo&quot;: &quot;Escolha os débitos&quot;,
+      &quot;texto&quot;: &quot;Marque os débitos que entram no acordo. Débito em dívida ativa ajuizada não aparece habilitado: segue o fluxo da Procuradoria.&quot;,
+      &quot;esperar&quot;: { &quot;tipo&quot;: &quot;marcado&quot;, &quot;alvo&quot;: &quot;input[id^=&#x27;vSELECIONADO_&#x27;]&quot;, &quot;mensagem&quot;: &quot;Marque pelo menos um débito para continuar.&quot; }
+    },
+    {
+      &quot;alvo&quot;: &quot;#TABLECONDICOES&quot;,
+      &quot;titulo&quot;: &quot;Defina as condições&quot;,
+      &quot;texto&quot;: &quot;Escolha o número de parcelas e o percentual de entrada. A regra de valor mínimo por parcela é validada na simulação.&quot;
+    },
+    {
+      &quot;alvo&quot;: &quot;#BTNSIMULAR&quot;,
+      &quot;titulo&quot;: &quot;Simule&quot;,
+      &quot;texto&quot;: &quot;Clique em Simular. O roteiro avança sozinho quando a simulação terminar.&quot;,
+      &quot;esperar&quot;: { &quot;tipo&quot;: &quot;clique&quot;, &quot;mensagem&quot;: &quot;Clique em Simular.&quot; }
+    },
+    {
+      &quot;alvo&quot;: &quot;#TXTRESULTADO&quot;,
+      &quot;titulo&quot;: &quot;Confira com o contribuinte&quot;,
+      &quot;texto&quot;: &quot;Leia os valores com o contribuinte. Só gere o termo depois do aceite dele.&quot;
+    },
+    {
+      &quot;alvo&quot;: &quot;#guia-coplan-botao&quot;,
+      &quot;titulo&quot;: &quot;Dúvida depois do treinamento?&quot;,
+      &quot;texto&quot;: &quot;Este botão fica em todas as telas. Ele abre o manual exatamente desta tela ou repete este roteiro.&quot;,
+      &quot;lado&quot;: &quot;left&quot;
+    }
+  ]
+}</pre>
+  </details>
+  <details class="code">
+    <summary><b><span class="ic"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /><path d="M14 2v5a1 1 0 0 0 1 1h5" /><path d="M10 12.5 8 15l2 2.5" /><path d="m14 12.5 2 2.5-2 2.5" /></svg></span>Motor <span class="path">guia-coplan/guia-coplan.js</span></b><span style="display:flex;gap:8px;align-items:center"><button class="btn btn-sm copy" type="button" data-copy="c-js"><span class="ic"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg></span>Copiar</button><span class="ic chev"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="m6 9 6 6 6-6" /></svg></span></span></summary>
+<pre id="c-js">/*!
+ * Guia Coplan v0.1 (prova de conceito)
+ * Roteiros guiados e ajuda por tela para aplicações web GeneXus.
+ * Não altera nenhum objeto GeneXus: só lê a página já renderizada.
+ * Depende de Driver.js 1.8.0 (licença MIT), carregado antes deste arquivo.
+ */
+(function (w, d) {
+  &#x27;use strict&#x27;;
+
+  var CFG = {};
+  var roteiroAtual = null;
+  var telaCarregada = null;
+  var driverObj = null;
+  var botao = null;
+  var passoOk = {};          // índice do passo -&gt; ação exigida já foi feita
+  var observador = null;
+
+  var PADRAO = {
+    roteirosUrl: &#x27;guia-coplan/roteiros/&#x27;, // pasta com um JSON por tela
+    roteiros: null,          // alternativa: objeto { &quot;nome-da-tela&quot;: {roteiro} } já embutido
+    manualUrl: null,         // ex.: &#x27;https://manual.exemplo/novo-sat/#{tela}&#x27;
+    tela: null,              // força o nome da tela (senão é deduzido da URL)
+    montarBotaoEm: null,     // seletor onde o botão ? é inserido; vazio = botão flutuante
+    registrar: null,         // function (evento) {...} para guardar evidência de uso
+    onAbrirManual: null,     // function (url, roteiro) {...}; padrão abre nova aba
+    debug: false
+  };
+
+  /* ---------- utilitários ---------- */
+  function log() { if (CFG.debug &amp;&amp; w.console) console.log.apply(console, [&#x27;[guia-coplan]&#x27;].concat([].slice.call(arguments))); }
+  function q(sel) { try { return sel ? d.querySelector(sel) : null; } catch (e) { return null; } }
+  function qa(sel) { try { return sel ? d.querySelectorAll(sel) : []; } catch (e) { return []; } }
+  function el(tag, cls, html) { var e = d.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; }
+
+  function registrar(evento, extra) {
+    var dados = { evento: evento, tela: telaCarregada, roteiro: roteiroAtual &amp;&amp; roteiroAtual.titulo, quando: new Date().toISOString() };
+    for (var k in (extra || {})) dados[k] = extra[k];
+    log(dados);
+    if (typeof CFG.registrar === &#x27;function&#x27;) { try { CFG.registrar(dados); } catch (e) {} }
+  }
+
+  /* Deduz o nome do objeto GeneXus pela URL.
+     .NET:  /novosat/wpparcelamento.aspx            -&gt; wpparcelamento
+     Java:  /novosat/servlet/com.novosat.wpparcelamento -&gt; wpparcelamento
+     Validar com as URLs reais do ambiente. */
+  function telaAtual() {
+    if (CFG.tela) return String(CFG.tela).toLowerCase();
+    var ult = (w.location.pathname.split(&#x27;/&#x27;).pop() || &#x27;&#x27;).replace(/\.(aspx|html?)$/i, &#x27;&#x27;);
+    return ult.split(&#x27;.&#x27;).pop().toLowerCase();
+  }
+
+  function carregarRoteiro(tela) {
+    if (CFG.roteiros) return Promise.resolve(CFG.roteiros[tela] || null);
+    return fetch(CFG.roteirosUrl + tela + &#x27;.json&#x27;, { cache: &#x27;no-cache&#x27;, credentials: &#x27;same-origin&#x27; })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .catch(function () { return null; });
+  }
+
+  /* ---------- condição de &quot;esperar&quot; ---------- */
+  // tipos: &quot;clique&quot; | &quot;preenchido&quot; | &quot;marcado&quot;
+  function condicaoAtendida(p, i) {
+    var e = p.esperar;
+    if (!e) return true;
+    if (e.tipo === &#x27;clique&#x27;) return !!passoOk[i];
+    var alvo = e.alvo || p.alvo;
+    var itens = qa(alvo);
+    for (var k = 0; k &lt; itens.length; k++) {
+      if (e.tipo === &#x27;marcado&#x27; &amp;&amp; itens[k].checked) return true;
+      if (e.tipo === &#x27;preenchido&#x27; &amp;&amp; String(itens[k].value || &#x27;&#x27;).trim() !== &#x27;&#x27;) return true;
+    }
+    return false;
+  }
+
+  function atualizarPopover() {
+    if (!driverObj || !driverObj.isActive() || !roteiroAtual) return;
+    var i = driverObj.getActiveIndex();
+    var p = roteiroAtual.passos[i];
+    var pop = driverObj.getState(&#x27;popover&#x27;);
+    if (!p || !pop) return;
+    var ok = condicaoAtendida(p, i);
+    pop.nextButton.disabled = !ok;
+    pop.nextButton.classList.toggle(&#x27;guia-desabilitado&#x27;, !ok);
+    var aviso = pop.description.querySelector(&#x27;.guia-aviso&#x27;);
+    if (!ok &amp;&amp; !aviso &amp;&amp; p.esperar) {
+      pop.description.appendChild(el(&#x27;span&#x27;, &#x27;guia-aviso&#x27;, p.esperar.mensagem || &#x27;Execute a ação indicada para continuar.&#x27;));
+    } else if (ok &amp;&amp; aviso) {
+      aviso.remove();
+    }
+  }
+
+  // Delegação no document: sobrevive aos re-renders que o GeneXus faz via AJAX.
+  function ouvirAcoes(ev) {
+    if (!driverObj || !driverObj.isActive() || !roteiroAtual) return;
+    var i = driverObj.getActiveIndex();
+    var p = roteiroAtual.passos[i];
+    if (!p || !p.esperar) return;
+    var alvo = p.esperar.alvo || p.alvo;
+    var casou = false;
+    try { casou = !!(ev.target.closest &amp;&amp; ev.target.closest(alvo)); } catch (e) {}
+    if (!casou) return;
+    if (p.esperar.tipo === &#x27;clique&#x27; &amp;&amp; ev.type === &#x27;click&#x27;) {
+      passoOk[i] = true;
+      registrar(&#x27;acao_executada&#x27;, { passo: i + 1 });
+      // dá tempo para o evento GeneXus rodar e a tela se atualizar
+      setTimeout(function () { if (driverObj &amp;&amp; driverObj.getActiveIndex() === i) driverObj.moveNext(); }, 600);
+      return;
+    }
+    if (!passoOk[i] &amp;&amp; condicaoAtendida(p, i)) { passoOk[i] = true; registrar(&#x27;acao_executada&#x27;, { passo: i + 1 }); }
+    atualizarPopover();
+  }
+
+  /* ---------- roteiro ---------- */
+  function iniciarRoteiro() {
+    if (!roteiroAtual) return;
+    var criar = w.driver &amp;&amp; w.driver.js &amp;&amp; w.driver.js.driver;
+    if (!criar) { console.error(&#x27;[guia-coplan] Driver.js não foi carregado antes do guia-coplan.js&#x27;); return; }
+    passoOk = {};
+    var total = roteiroAtual.passos.length;
+    driverObj = criar({
+      showProgress: true,
+      progressText: &#x27;Passo {{current}} de {{total}}&#x27;,
+      nextBtnText: &#x27;Próximo&#x27;,
+      prevBtnText: &#x27;Voltar&#x27;,
+      doneBtnText: &#x27;Concluir&#x27;,
+      popoverClass: &#x27;guia-coplan-popover&#x27;,
+      overlayOpacity: 0.55,
+      stageRadius: 12,
+      waitForElement: 4000,        // espera o GeneXus desenhar o controle (AJAX)
+      allowClose: true,
+      steps: roteiroAtual.passos.map(function (p) {
+        return {
+          element: p.alvo || undefined,
+          popover: { title: p.titulo, description: p.texto, side: p.lado || &#x27;bottom&#x27;, align: &#x27;start&#x27; }
+        };
+      }),
+      onPopoverRender: function () { setTimeout(atualizarPopover, 0); },
+      onNextClick: function () {
+        var i = driverObj.getActiveIndex();
+        if (!condicaoAtendida(roteiroAtual.passos[i], i)) { atualizarPopover(); return; }
+        registrar(&#x27;passo_concluido&#x27;, { passo: i + 1 });
+        if (i === total - 1) { registrar(&#x27;roteiro_concluido&#x27;, { passos: total }); driverObj.destroy(); }
+        else driverObj.moveNext();
+      },
+      onCloseClick: function () {
+        registrar(&#x27;roteiro_interrompido&#x27;, { passo: driverObj.getActiveIndex() + 1 });
+        driverObj.destroy();
+      }
+    });
+    registrar(&#x27;roteiro_iniciado&#x27;, { passos: total });
+    driverObj.drive();
+  }
+
+  function abrirManual() {
+    var url = CFG.manualUrl ? CFG.manualUrl.replace(&#x27;{tela}&#x27;, encodeURIComponent((roteiroAtual &amp;&amp; roteiroAtual.manual) || telaCarregada)) : null;
+    registrar(&#x27;manual_aberto&#x27;);
+    if (typeof CFG.onAbrirManual === &#x27;function&#x27;) return CFG.onAbrirManual(url, roteiroAtual);
+    if (url) w.open(url, &#x27;_blank&#x27;, &#x27;noopener&#x27;);
+  }
+
+  /* ---------- botão ? ---------- */
+  var ICONE_AJUDA = &#x27;&lt;svg viewBox=&quot;0 0 24 24&quot; width=&quot;20&quot; height=&quot;20&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; aria-hidden=&quot;true&quot;&gt;&lt;circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;10&quot;/&gt;&lt;path d=&quot;M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3&quot;/&gt;&lt;path d=&quot;M12 17h.01&quot;/&gt;&lt;/svg&gt;&#x27;;
+
+  var ICONE_ROTEIRO = &#x27;&lt;svg aria-hidden=&quot;true&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;15&quot; height=&quot;15&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; &gt;&lt;circle cx=&quot;6&quot; cy=&quot;19&quot; r=&quot;3&quot; /&gt;&lt;path d=&quot;M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15&quot; /&gt;&lt;circle cx=&quot;18&quot; cy=&quot;5&quot; r=&quot;3&quot; /&gt;&lt;/svg&gt;&#x27;;
+  var ICONE_MANUAL = &#x27;&lt;svg aria-hidden=&quot;true&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;15&quot; height=&quot;15&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; &gt;&lt;path d=&quot;M12 5v16&quot; /&gt;&lt;path d=&quot;M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z&quot; /&gt;&lt;/svg&gt;&#x27;;
+
+  function montarBotao() {
+    if (botao) { botao.remove(); botao = null; }
+    if (!roteiroAtual &amp;&amp; !CFG.manualUrl &amp;&amp; !CFG.onAbrirManual) return;
+    var host = CFG.montarBotaoEm ? q(CFG.montarBotaoEm) : null;
+    botao = el(&#x27;div&#x27;, &#x27;guia-coplan&#x27; + (host ? &#x27;&#x27; : &#x27; guia-coplan--flutuante&#x27;));
+    var btn = el(&#x27;button&#x27;, &#x27;guia-coplan__botao&#x27;, ICONE_AJUDA);
+    btn.type = &#x27;button&#x27;;
+    btn.id = &#x27;guia-coplan-botao&#x27;;
+    btn.setAttribute(&#x27;aria-label&#x27;, &#x27;Ajuda desta tela&#x27;);
+    btn.setAttribute(&#x27;aria-expanded&#x27;, &#x27;false&#x27;);
+    var menu = el(&#x27;div&#x27;, &#x27;guia-coplan__menu&#x27;);
+    menu.hidden = true;
+    menu.appendChild(el(&#x27;div&#x27;, &#x27;guia-coplan__menu-titulo&#x27;, &#x27;Ajuda desta tela&#x27;));
+    if (roteiroAtual) {
+      var b1 = el(&#x27;button&#x27;, null, ICONE_ROTEIRO + &#x27;Me guie nesta tela&#x27;); b1.type = &#x27;button&#x27;;
+      b1.onclick = function () { menu.hidden = true; iniciarRoteiro(); };
+      menu.appendChild(b1);
+    }
+    var b2 = el(&#x27;button&#x27;, null, ICONE_MANUAL + &#x27;Abrir manual desta tela&#x27;); b2.type = &#x27;button&#x27;;
+    b2.onclick = function () { menu.hidden = true; abrirManual(); };
+    menu.appendChild(b2);
+    btn.onclick = function () { menu.hidden = !menu.hidden; btn.setAttribute(&#x27;aria-expanded&#x27;, String(!menu.hidden)); };
+    botao.appendChild(btn); botao.appendChild(menu);
+    (host || d.body).appendChild(botao);
+  }
+
+  /* ---------- ferramentas para o desenvolvedor ---------- */
+  function seletorDe(no) {
+    if (!no || no === d.body) return &#x27;body&#x27;;
+    if (no.id) return &#x27;#&#x27; + (w.CSS &amp;&amp; CSS.escape ? CSS.escape(no.id) : no.id);
+    var caminho = [];
+    while (no &amp;&amp; no.nodeType === 1 &amp;&amp; no !== d.body) {
+      if (no.id) { caminho.unshift(&#x27;#&#x27; + (w.CSS &amp;&amp; CSS.escape ? CSS.escape(no.id) : no.id)); break; }
+      var tag = no.tagName.toLowerCase(), pai = no.parentNode, idx = 1, irm = no;
+      while ((irm = irm.previousElementSibling)) if (irm.tagName === no.tagName) idx++;
+      caminho.unshift(tag + &#x27;:nth-of-type(&#x27; + idx + &#x27;)&#x27;);
+      no = pai;
+    }
+    return caminho.join(&#x27; &gt; &#x27;);
+  }
+
+  // Alt+clique em qualquer controle mostra o seletor para usar no JSON.
+  function mapear() {
+    d.addEventListener(&#x27;click&#x27;, function (ev) {
+      if (!ev.altKey) return;
+      ev.preventDefault(); ev.stopPropagation();
+      var s = seletorDe(ev.target);
+      console.log(&#x27;[guia-coplan] seletor:&#x27;, s, ev.target);
+      if (navigator.clipboard) navigator.clipboard.writeText(s).catch(function () {});
+      var t = el(&#x27;div&#x27;, &#x27;guia-coplan__toast&#x27;, &#x27;Seletor: &lt;code&gt;&lt;/code&gt;&#x27;);
+      t.querySelector(&#x27;code&#x27;).textContent = s;
+      d.body.appendChild(t);
+      setTimeout(function () { t.remove(); }, 3500);
+    }, true);
+    console.log(&#x27;[guia-coplan] modo mapeamento ativo: Alt+clique em um controle.&#x27;);
+  }
+
+  // Lista quais alvos do roteiro atual não existem na tela (use após cada build).
+  function verificar() {
+    if (!roteiroAtual) { console.warn(&#x27;[guia-coplan] nenhuma tela com roteiro carregada&#x27;); return []; }
+    var r = roteiroAtual.passos.map(function (p, i) {
+      return { passo: i + 1, alvo: p.alvo || &#x27;(centro da tela)&#x27;, encontrado: p.alvo ? !!q(p.alvo) : true };
+    });
+    if (console.table) console.table(r);
+    return r;
+  }
+
+  /* ---------- ciclo de vida ---------- */
+  function carregarTela() {
+    var tela = telaAtual();
+    if (tela === telaCarregada) return;
+    telaCarregada = tela;
+    carregarRoteiro(tela).then(function (r) {
+      roteiroAtual = r &amp;&amp; r.passos &amp;&amp; r.passos.length ? r : null;
+      log(&#x27;tela&#x27;, tela, roteiroAtual ? &#x27;com roteiro&#x27; : &#x27;sem roteiro&#x27;);
+      montarBotao();
+    });
+  }
+
+  function iniciar(config) {
+    CFG = {};
+    for (var k in PADRAO) CFG[k] = PADRAO[k];
+    var ext = config || w.GUIA_COPLAN_CONFIG || {};
+    for (var j in ext) CFG[j] = ext[j];
+
+    d.addEventListener(&#x27;click&#x27;, ouvirAcoes, true);
+    d.addEventListener(&#x27;change&#x27;, ouvirAcoes, true);
+    d.addEventListener(&#x27;input&#x27;, ouvirAcoes, true);
+
+    // Reposiciona o destaque quando o GeneXus atualiza a tela via AJAX.
+    if (w.MutationObserver &amp;&amp; !observador) {
+      var t = null;
+      observador = new MutationObserver(function () {
+        clearTimeout(t);
+        t = setTimeout(function () { if (driverObj &amp;&amp; driverObj.isActive()) { driverObj.refresh(); atualizarPopover(); } }, 150);
+      });
+      observador.observe(d.body, { childList: true, subtree: true });
+    }
+
+    // Web User Experience &quot;Smooth&quot; pode trocar de tela sem recarregar a página.
+    setInterval(carregarTela, 1000);
+    try { if (w.localStorage &amp;&amp; localStorage.getItem(&#x27;guiaCoplanMapear&#x27;) === &#x27;1&#x27;) mapear(); } catch (e) {}
+    carregarTela();
+  }
+
+  w.GuiaCoplan = { iniciar: iniciar, iniciarRoteiro: iniciarRoteiro, mapear: mapear, verificar: verificar, telaAtual: telaAtual };
+
+  if (w.GUIA_COPLAN_CONFIG &amp;&amp; w.GUIA_COPLAN_CONFIG.autoIniciar !== false) {
+    if (d.readyState === &#x27;loading&#x27;) d.addEventListener(&#x27;DOMContentLoaded&#x27;, function () { iniciar(); });
+    else iniciar();
+  }
+})(window, document);</pre>
+  </details>
+  <details class="code">
+    <summary><b><span class="ic"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /><path d="M14 2v5a1 1 0 0 0 1 1h5" /><path d="M10 12.5 8 15l2 2.5" /><path d="m14 12.5 2 2.5-2 2.5" /></svg></span>Estilo <span class="path">guia-coplan/guia-coplan.css</span></b><span style="display:flex;gap:8px;align-items:center"><button class="btn btn-sm copy" type="button" data-copy="c-css"><span class="ic"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg></span>Copiar</button><span class="ic chev"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="m6 9 6 6 6-6" /></svg></span></span></summary>
+<pre id="c-css">/* Guia Coplan v0.1, visual conforme Coplan Design System v2.0
+   (botão de ícone do cabeçalho, dropdown do cabeçalho, toast e modal). */
+.guia-coplan{position:relative;display:inline-block;font-family:&quot;Exo 2&quot;,ui-sans-serif,system-ui,sans-serif}
+.guia-coplan--flutuante{position:fixed;right:24px;bottom:24px;z-index:9990}
+.guia-coplan__botao{width:40px;height:40px;border-radius:50%;border:1px solid #E0E0E1;background:#1F4993;color:#FFFFFF;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:background .15s ease,color .15s ease}
+.guia-coplan__botao:hover{background:#75C566;border-color:#75C566;color:#FFFFFF}
+.guia-coplan__botao:focus-visible{outline:2px solid #75C566;outline-offset:2px}
+.guia-coplan__menu{position:absolute;right:0;top:calc(100% + 10px);min-width:230px;background:#FFFFFF;border:1px solid #E0E0E1;border-radius:12px;box-shadow:0 12px 28px rgba(10,26,46,.15);padding:8px;display:grid;gap:2px;z-index:9991}
+.guia-coplan__menu[hidden]{display:none}
+.guia-coplan--flutuante .guia-coplan__menu{top:auto;bottom:calc(100% + 10px)}
+.guia-coplan__menu-titulo{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:#8A8A8D;padding:6px 10px 8px}
+.guia-coplan__menu button{all:unset;box-sizing:border-box;display:flex;align-items:center;gap:10px;font:400 13px &quot;Exo 2&quot;,ui-sans-serif,system-ui,sans-serif;color:#0A1A2E;padding:9px 10px;border-radius:8px;cursor:pointer;transition:background .15s ease,color .15s ease}
+.guia-coplan__menu button:hover,.guia-coplan__menu button:focus-visible{background:#75C566;color:#FFFFFF}
+.guia-coplan__toast{position:fixed;top:24px;right:24px;z-index:1000000001;max-width:340px;background:#1F4993;color:#FFFFFF;border-radius:8px;box-shadow:0 8px 24px rgba(10,26,46,.25);padding:16px;font:600 13px &quot;Exo 2&quot;,ui-sans-serif,system-ui,sans-serif}
+.guia-coplan__toast code{font-family:ui-monospace,Menlo,Consolas,monospace;font-weight:400;word-break:break-all}
+
+/* Popover do Driver.js no padrão do modal Coplan */
+.driver-popover.guia-coplan-popover{font-family:&quot;Exo 2&quot;,ui-sans-serif,system-ui,sans-serif;color:#0A1A2E;background:#FFFFFF;border-radius:12px;padding:20px;max-width:340px;box-shadow:0 10px 30px rgba(0,0,0,.2)}
+.guia-coplan-popover .driver-popover-title{font-size:18px;font-weight:600;color:#1F4993;line-height:1.3}
+.guia-coplan-popover .driver-popover-description{font-size:14px;line-height:1.5;color:#0A1A2E}
+.guia-coplan-popover .driver-popover-progress-text{font-size:12px;color:#8A8A8D}
+.guia-coplan-popover .driver-popover-footer{margin-top:16px}
+.guia-coplan-popover .driver-popover-footer-btn{font:500 13.5px &quot;Exo 2&quot;,ui-sans-serif,system-ui,sans-serif;height:36px;padding:0 16px;border-radius:8px;border:1px solid #E0E0E1;background:#FFFFFF;color:#8A8A8D;text-shadow:none;display:inline-flex;align-items:center}
+.guia-coplan-popover .driver-popover-footer-btn:hover{background:#F0F2F8}
+.guia-coplan-popover .driver-popover-next-btn{background:#1F4993;border-color:#1F4993;color:#FFFFFF}
+.guia-coplan-popover .driver-popover-next-btn:hover{background:#173a76}
+.guia-coplan-popover .driver-popover-footer-btn.guia-desabilitado{opacity:.5;pointer-events:none}
+.guia-coplan-popover .driver-popover-close-btn{color:#8A8A8D}
+.guia-coplan-popover .driver-popover-close-btn:hover{color:#EF4444}
+.guia-coplan-popover .guia-aviso{display:block;margin-top:10px;padding:10px 12px;border-radius:8px;background:#FFF3D6;color:#8A6100;font-weight:600;font-size:12.5px}</pre>
+  </details>
+  <p class="spec">O Driver.js não está reproduzido aqui. Baixe a versão fixa <code>1.8.0</code> em <a href="https://www.npmjs.com/package/driver.js/v/1.8.0" target="_blank" rel="noopener">npmjs.com/package/driver.js/v/1.8.0</a> (arquivos <code>dist/driver.js.iife.js</code> e <code>dist/driver.css</code>) e sirva localmente, sem depender de CDN na rede do cliente.</p>
+</div>
+
+<!-- ================= VALIDAÇÃO ================= -->
+<div class="page" id="page-validacao" data-cat="Validação">
+  <div class="eyebrow">Validação</div>
+  <div class="pattern-header">
+    <div><h1>O que validar</h1><p>O que já está confirmado e o que a prova de conceito precisa provar.</p></div>
+    <button class="btn btn-ghost" type="button" data-go="inicio"><span class="ic"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="m15 18-6-6 6-6" /></svg></span>Voltar ao Início</button>
+  </div>
+  <div class="tbl-wrap">
+    <table class="vtable">
+      <thead><tr><th>Ponto</th><th>Status</th><th>Base</th></tr></thead>
+      <tbody>
+        <tr><td>Driver.js 1.8.0 é MIT, sem dependências, e tem a API usada (<code>onNextClick</code>, <code>moveNext</code>, <code>refresh</code>, <code>waitForElement</code>)</td><td><span class="status-chip status-active">Confirmado</span></td><td>Pacote npm e tipos TypeScript da 1.8.0</td></tr>
+        <tr><td><code>waitForElement</code> espera o controle aparecer usando MutationObserver</td><td><span class="status-chip status-active">Confirmado</span></td><td>Código-fonte distribuído da 1.8.0</td></tr>
+        <tr><td>Motor funciona com a tela ilustrativa</td><td><span class="status-chip status-active">Confirmado</span></td><td>Página Demonstração, mesmo código</td></tr>
+        <tr><td>GeneXus tem <code>Form.JScriptSrc</code> e <code>Form.HeaderRawHTML</code> para incluir JS e CSS no objeto web</td><td><span class="status-chip status-active">Confirmado</span></td><td>Artigos da documentação oficial (ver Fontes)</td></tr>
+        <tr><td>Incluídos na Master Page, valem para todas as telas que a usam, na versão do Novo SAT</td><td><span class="status-chip status-pending">Validar</span></td><td>Comportamento esperado, não testado na KB</td></tr>
+        <tr><td>IDs HTML dos controles estáveis entre builds</td><td><span class="status-chip status-pending">Validar</span></td><td>Mapeamento + <code>GuiaCoplan.verificar()</code> em 2 builds seguidos</td></tr>
+        <tr><td>Nome da tela deduzido da URL</td><td><span class="status-chip status-pending">Validar</span></td><td>Depende do gerador e da configuração do servidor</td></tr>
+        <tr><td>Eventos do servidor não recarregam a página inteira nos fluxos do piloto</td><td><span class="status-chip status-pending">Validar</span></td><td>Se recarregar, o roteiro precisa retomar do passo (v0.2)</td></tr>
+        <tr><td>Navegação Smooth (sem recarregar a página)</td><td><span class="status-chip status-pending">Validar</span></td><td>O motor verifica a URL a cada 1s. Só vale se a URL mudar na troca de tela</td></tr>
+        <tr><td>Política de segurança do servidor (CSP) permite script do mesmo domínio</td><td><span class="status-chip status-pending">Validar</span></td><td>Arquivos servidos localmente, sem CDN externa</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ================= RISCOS ================= -->
+<div class="page" id="page-riscos" data-cat="Validação">
+  <div class="eyebrow">Validação</div>
+  <div class="pattern-header">
+    <div><h1>Riscos e perguntas</h1><p>Limites da abordagem e o que a equipe GeneXus precisa responder.</p></div>
+    <button class="btn btn-ghost" type="button" data-go="inicio"><span class="ic"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="m15 18-6-6 6-6" /></svg></span>Voltar ao Início</button>
+  </div>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title"><span class="ic" style="color:var(--destructive)"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /><path d="M12 9v4" /><path d="M12 17h.01" /></svg></span>Limites e riscos</div>
+      <ul>
+        <li><b>Telas ainda em desenvolvimento.</b> Roteiro só em telas estáveis. Por isso o piloto é de 3 fluxos.</li>
+        <li><b>Controle renomeado quebra o passo.</b> A tela não trava: o Driver.js mostra o texto no centro. Rodar <code>verificar()</code> após cada build pega isso antes do usuário.</li>
+        <li><b>O roteiro orienta, não valida regra de negócio.</b> A validação continua no GeneXus.</li>
+        <li><b>Registrar eventos envolve dados de uso de servidores.</b> Se for ligado, tratar com o cliente e a LGPD antes.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="ic"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><circle cx="12" cy="12" r="10" /><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /><path d="M12 17h.01" /></svg></span>Perguntas para a equipe GeneXus</div>
+      <ol>
+        <li>O Novo SAT é gerado em Java ou .NET, e qual é o formato real das URLs?</li>
+        <li>Todas as telas usam a mesma Master Page?</li>
+        <li>Os fluxos candidatos ao piloto (Atendimento, Parcelamento, NFS-e) rodam eventos por AJAX?</li>
+        <li>Há Web Components aninhados nessas telas? Eles mudam o prefixo dos IDs.</li>
+        <li>Quem pode dedicar 1 dia para esta prova de conceito, e em qual KB?</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<!-- ================= FONTES ================= -->
+<div class="page" id="page-fontes" data-cat="Validação">
+  <div class="eyebrow">Validação</div>
+  <div class="pattern-header">
+    <div><h1>Fontes</h1><p>Referências usadas neste documento.</p></div>
+    <button class="btn btn-ghost" type="button" data-go="inicio"><span class="ic"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="m15 18-6-6 6-6" /></svg></span>Voltar ao Início</button>
+  </div>
+  <div class="card">
+    <ul class="fontes">
+      <li><a href="https://docs.genexus.com/en/wiki?14621,JScriptSrc+Property" target="_blank" rel="noopener">GeneXus · JScriptSrc Property</a></li>
+      <li><a href="https://docs.genexus.com/en/wiki?14620,HeaderRawHTML+Property" target="_blank" rel="noopener">GeneXus · HeaderRawHTML Property</a></li>
+      <li><a href="https://wiki.genexus.com/commwiki/wiki?22449,Web+User+Experience+property" target="_blank" rel="noopener">GeneXus · Web User Experience property (Smooth)</a></li>
+      <li><a href="https://driverjs.com/" target="_blank" rel="noopener">Driver.js · documentação</a> e <a href="https://github.com/nilbuild/driver.js" target="_blank" rel="noopener">repositório (MIT)</a></li>
+      <li><a href="https://diegoloureiro84.github.io/coplan-design-system/" target="_blank" rel="noopener">Coplan Design System v2.0</a></li>
+      <li><a href="https://lucide.dev/" target="_blank" rel="noopener">Lucide Icons</a>, biblioteca oficial de ícones do design system</li>
+    </ul>
+  </div>
+  <footer class="docfooter"><span>Coplan Tecnologia · Inovação · Diego Loureiro</span><span>Guia Coplan v0.1</span></footer>
+</div>
+
+</main>
+
+<footer class="doc-footer-real">
+  <span>© 2026 Coplan Tecnologia. Todos os direitos reservados.</span>
+  <span class="doc-footer-links">Política de Privacidade &nbsp; Termos de Uso &nbsp; Sobre &nbsp;&nbsp; <b>Download na App Store</b> &nbsp; <b>Disponível no Google Play</b></span>
+</footer>
+</div>
+
+<!-- toast -->
+<div class="toast-live" id="liveToast" role="status" aria-live="polite"><button class="toast-close" type="button" id="toastClose" aria-label="Fechar">✕</button><b id="toastTitle"></b><p id="toastMsg"></p></div>
+
+<!-- modal do manual -->
+<div class="confirm-overlay" id="manualOverlay">
+  <div class="fluxo-card" role="dialog" aria-modal="true" aria-labelledby="manualTitle">
+    <div class="fluxo-head"><h3 id="manualTitle"><span class="ic" style="color:var(--primary);width:20px;height:20px"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M12 5v16" /><path d="M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z" /></svg></span>Manual Operacional</h3><button class="fluxo-close" type="button" id="manualClose" aria-label="Fechar"><span class="ic"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg></span></button></div>
+    <p style="font-weight:700;font-size:15px;margin:0 0 6px" id="manualRoteiro"></p>
+    <div class="fluxo-pills"><span class="fluxo-pill" id="manualMacro"></span><span class="fluxo-pill" id="manualTela"></span></div>
+    <ol><li>Consulte o contribuinte pelo CPF/CNPJ.</li><li>Marque os débitos do acordo. Débito ajuizado segue o fluxo da Procuradoria.</li><li>Escolha parcelas e entrada conforme a regra vigente.</li><li>Simule, confira com o contribuinte e só então gere o termo.</li></ol>
+    <p class="spec" style="margin:0">Conteúdo ilustrativo. As regras reais viriam dos analistas do Tributário. Em produção, este painel é uma página do manual web aberta pela URL configurada em <code>manualUrl</code>.</p>
+  </div>
+</div>
+
+<script>
+/*! Driver.js 1.8.0 | MIT License | https://github.com/nilbuild/driver.js */
+this.driver=this.driver||{},this.driver.js=(function(e){Object.defineProperty(e,Symbol.toStringTag,{value:`Module`});let t=[`pointerdown`,`mousedown`,`pointerup`,`mouseup`,`click`],n=new WeakMap;function r(e,r,a){i(e);let o=t=>{let n=t.target;e.contains(n)&&((!a||a(n))&&(t.preventDefault(),t.stopPropagation(),t.stopImmediatePropagation()),t.type===`click`&&r?.(t))};for(let e of t)document.addEventListener(e,o,!0);n.set(e,o)}function i(e){let r=n.get(e);if(r){for(let e of t)document.removeEventListener(e,r,!0);n.delete(e)}}function a(e,t){let n=e.wrapper.getBoundingClientRect();return{width:n.width+t,height:n.height+t,realWidth:n.width,realHeight:n.height}}function o(e,t){let{elementDimensions:n,popoverDimensions:r,popoverPadding:i,popoverArrowDimensions:a}=t;return e===`start`?Math.max(Math.min(n.top-i,window.innerHeight-r.realHeight-a.width),a.width):e===`end`?Math.max(Math.min(n.top-r?.realHeight+n.height+i,window.innerHeight-r?.realHeight-a.width),a.width):e===`center`?Math.max(Math.min(n.top+n.height/2-r?.realHeight/2,window.innerHeight-r?.realHeight-a.width),a.width):0}function s(e,t){let{elementDimensions:n,popoverDimensions:r,popoverPadding:i,popoverArrowDimensions:a}=t;return e===`start`?Math.max(Math.min(n.left-i,window.innerWidth-r.realWidth-a.width),a.width):e===`end`?Math.max(Math.min(n.left-r?.realWidth+n.width+i,window.innerWidth-r?.realWidth-a.width),a.width):e===`center`?Math.max(Math.min(n.left+n.width/2-r?.realWidth/2,window.innerWidth-r?.realWidth-a.width),a.width):0}function c(e,t,n){let{align:r,side:i}=n,c=n.centered?`over`:i,l=n.padding,u=a(e,n.offset),d=e.arrow.getBoundingClientRect(),p=t.getBoundingClientRect(),m=p.top-u.height,h=m>=0,g=window.innerHeight-(p.bottom+u.height),_=g>=0,v=p.left-u.width,y=v>=0,b=window.innerWidth-(p.right+u.width),x=b>=0,S=!h&&!_&&!y&&!x,C=c;if(c===`top`&&h?x=y=_=!1:c===`bottom`&&_?x=y=h=!1:c===`left`&&y?x=h=_=!1:c===`right`&&x&&(y=h=_=!1),c===`over`){let t=window.innerWidth/2-u.realWidth/2,n=window.innerHeight/2-u.realHeight/2;e.wrapper.style.left=`${t}px`,e.wrapper.style.right=`auto`,e.wrapper.style.top=`${n}px`,e.wrapper.style.bottom=`auto`}else if(S){let t=window.innerWidth/2-u?.realWidth/2;e.wrapper.style.left=`${t}px`,e.wrapper.style.right=`auto`,e.wrapper.style.bottom=`10px`,e.wrapper.style.top=`auto`}else if(y){let t=Math.min(v,window.innerWidth-u?.realWidth-d.width),n=o(r,{elementDimensions:p,popoverDimensions:u,popoverPadding:l,popoverArrowDimensions:d});e.wrapper.style.left=`${t}px`,e.wrapper.style.top=`${n}px`,e.wrapper.style.bottom=`auto`,e.wrapper.style.right=`auto`,C=`left`}else if(x){let t=Math.min(b,window.innerWidth-u?.realWidth-d.width),n=o(r,{elementDimensions:p,popoverDimensions:u,popoverPadding:l,popoverArrowDimensions:d});e.wrapper.style.right=`${t}px`,e.wrapper.style.top=`${n}px`,e.wrapper.style.bottom=`auto`,e.wrapper.style.left=`auto`,C=`right`}else if(h){let t=Math.min(m,window.innerHeight-u.realHeight-d.width),n=s(r,{elementDimensions:p,popoverDimensions:u,popoverPadding:l,popoverArrowDimensions:d});e.wrapper.style.top=`${t}px`,e.wrapper.style.left=`${n}px`,e.wrapper.style.bottom=`auto`,e.wrapper.style.right=`auto`,C=`top`}else if(_){let t=Math.min(g,window.innerHeight-u?.realHeight-d.width),n=s(r,{elementDimensions:p,popoverDimensions:u,popoverPadding:l,popoverArrowDimensions:d});e.wrapper.style.left=`${n}px`,e.wrapper.style.bottom=`${t}px`,e.wrapper.style.top=`auto`,e.wrapper.style.right=`auto`,C=`bottom`}f(e,S?`over`:C,r,t),[...e.wrapper.classList].filter(e=>e.startsWith(`driver-popover-side-`)||e.startsWith(`driver-popover-align-`)).forEach(t=>e.wrapper.classList.remove(t)),e.wrapper.classList.add(`driver-popover-side-${C}`),e.wrapper.classList.add(`driver-popover-align-${r}`)}function l(e,t,n,r,i,a=10){let o=r-n;return e<=n&&t>=r?i===`start`?15+a/2:i===`end`?o-15-a/2:o/2:(Math.min(Math.max(e,n),r)+Math.min(Math.max(t,n),r))/2-n}function u(e,t,n=10){let r=t-15-n;if(r<15)return Math.max(0,(t-n)/2);let i=e-n/2;return Math.min(Math.max(i,15),r)}function d(e,t,n){return e===`left`||e===`right`?t.bottom>n.top&&t.top<n.bottom?e:t.bottom<=n.top?`bottom`:`top`:t.right>n.left&&t.left<n.right?e:t.right<=n.left?`right`:`left`}function f(e,t,n,r){let i=e.arrow;if(i.className=`driver-popover-arrow`,i.style.top=``,i.style.right=``,i.style.bottom=``,i.style.left=``,t===`over`){i.classList.add(`driver-popover-arrow-none`);return}let a=r.getBoundingClientRect(),o=e.wrapper.getBoundingClientRect(),s=d(t,a,o);i.classList.add(`driver-popover-arrow-side-${s}`);let c=i.getBoundingClientRect().width||10;if(s===`left`||s===`right`){let e=l(a.top,a.bottom,o.top,o.bottom,n,c);i.style.top=`${u(e,o.height,c)}px`}else{let e=l(a.left,a.right,o.left,o.right,n,c);i.style.left=`${u(e,o.width,c)}px`}}function p(e){return typeof e==`function`?e():typeof e==`string`?document.querySelector(e):e}function m(e){let t=window.getComputedStyle(e);return[t.overflow,t.overflowX,t.overflowY].some(e=>e===`auto`||e===`scroll`)}function h(e,t,n,r){return(e/=r/2)<1?n/2*e*e+t:-n/2*(--e*(e-2)-1)+t}function g(e){let t=`a[href]:not([disabled]), button:not([disabled]), textarea:not([disabled]), input[type="text"]:not([disabled]), input[type="radio"]:not([disabled]), input[type="checkbox"]:not([disabled]), select:not([disabled])`;return e.flatMap(e=>{let n=e.matches(t),r=Array.from(e.querySelectorAll(t));return[...n?[e]:[],...r]}).filter(e=>getComputedStyle(e).pointerEvents!==`none`&&b(e))}function _(e,t){if(!e||y(e))return;let n=e.offsetHeight>window.innerHeight;e.scrollIntoView({behavior:!t||v(e)?`auto`:`smooth`,inline:`center`,block:n?`start`:`center`})}function v(e){if(!e||!e.parentElement)return;let t=e.parentElement;return t.scrollHeight>t.clientHeight}function y(e){let t=e.getBoundingClientRect();return t.top>=0&&t.left>=0&&t.bottom<=(window.innerHeight||document.documentElement.clientHeight)&&t.right<=(window.innerWidth||document.documentElement.clientWidth)}function b(e){return!!(e.offsetWidth||e.offsetHeight||e.getClientRects().length)}function x(e){e&&(e.wrapper.style.display=`none`)}function S(e,t){let n=ee();document.body.appendChild(n.wrapper);let{title:i,description:a,showButtons:o,disableButtons:s,showProgress:l,nextBtnText:u,prevBtnText:d,progressText:f}=t;n.nextButton.innerHTML=u,n.previousButton.innerHTML=d,n.progress.innerHTML=f,t.doneButton&&n.nextButton.classList.add(`driver-popover-done-btn`),i?(n.title.innerHTML=i,n.title.style.display=`block`):n.title.style.display=`none`,a?(n.description.innerHTML=a,n.description.style.display=`block`):n.description.style.display=`none`;let p=o.includes(`next`)||o.includes(`previous`)||l;n.closeButton.style.display=o.includes(`close`)?`block`:`none`,p?(n.footer.style.display=`flex`,n.progress.style.display=l?`block`:`none`,n.nextButton.style.display=o.includes(`next`)?`block`:`none`,n.previousButton.style.display=o.includes(`previous`)?`block`:`none`):n.footer.style.display=`none`,s.includes(`next`)&&(n.nextButton.disabled=!0,n.nextButton.classList.add(`driver-popover-btn-disabled`)),s.includes(`previous`)&&(n.previousButton.disabled=!0,n.previousButton.classList.add(`driver-popover-btn-disabled`)),s.includes(`close`)&&(n.closeButton.disabled=!0,n.closeButton.classList.add(`driver-popover-btn-disabled`));let m=n.wrapper;m.style.display=`block`,m.style.left=``,m.style.top=``,m.style.bottom=``,m.style.right=``,m.id=`driver-popover-content`,m.setAttribute(`role`,`dialog`),m.setAttribute(`aria-labelledby`,`driver-popover-title`),m.setAttribute(`aria-describedby`,`driver-popover-description`);let h=n.arrow;h.className=`driver-popover-arrow`,m.className=`driver-popover ${t.popoverClass||``}`.trim(),r(n.wrapper,e=>{let n=e.target;if(n.closest(`.driver-popover-next-btn`))return t.onNextClick?.();if(n.closest(`.driver-popover-prev-btn`))return t.onPrevClick?.();if(n.closest(`.driver-popover-close-btn`))return t.onCloseClick?.()},e=>n.description.contains(e)||n.title.contains(e)?!1:!!e.closest(`.driver-popover-prev-btn, .driver-popover-next-btn, .driver-popover-close-btn`)),t.onRender?.(n),c(n,e,t.position),C(n,e,t.position),_(m,t.smoothScroll);let v=g([m,e]);return v.length>0&&v[0].focus(),n}function C(e,t,n){e.wrapper.querySelectorAll(`img`).forEach(r=>{if(r.complete)return;let i=()=>c(e,t,n);r.addEventListener(`load`,i,{once:!0}),r.addEventListener(`error`,i,{once:!0})})}function ee(){let e=document.createElement(`div`);e.classList.add(`driver-popover`);let t=document.createElement(`div`);t.classList.add(`driver-popover-arrow`);let n=document.createElement(`header`);n.id=`driver-popover-title`,n.classList.add(`driver-popover-title`),n.style.display=`none`,n.innerText=`Popover Title`;let r=document.createElement(`div`);r.id=`driver-popover-description`,r.classList.add(`driver-popover-description`),r.style.display=`none`,r.innerText=`Popover description is here`;let i=document.createElement(`button`);i.type=`button`,i.classList.add(`driver-popover-close-btn`),i.setAttribute(`aria-label`,`Close`),i.innerHTML=`&times;`;let a=document.createElement(`footer`);a.classList.add(`driver-popover-footer`);let o=document.createElement(`span`);o.classList.add(`driver-popover-progress-text`),o.innerText=``;let s=document.createElement(`span`);s.classList.add(`driver-popover-navigation-btns`);let c=document.createElement(`button`);c.type=`button`,c.classList.add(`driver-popover-prev-btn`,`driver-popover-footer-btn`),c.innerHTML=`Previous`;let l=document.createElement(`button`);return l.type=`button`,l.classList.add(`driver-popover-next-btn`,`driver-popover-footer-btn`),l.innerHTML=`Next`,s.appendChild(c),s.appendChild(l),a.appendChild(o),a.appendChild(s),e.appendChild(i),e.appendChild(t),e.appendChild(n),e.appendChild(r),e.appendChild(a),{wrapper:e,arrow:t,title:n,description:r,footer:a,previousButton:c,nextButton:l,closeButton:i,footerButtons:s,progress:o}}function w(e){e&&(i(e.wrapper),e.wrapper.parentElement?.removeChild(e.wrapper))}function T(e,t){let n=window.innerWidth,r=window.innerHeight,i=t.padding,a=t.radius,o=e.width+i*2,s=e.height+i*2,c=Math.min(a,o/2,s/2),l=Math.floor(Math.max(c,0)),u=e.x-i+l,d=e.y-i,f=o-l*2,p=s-l*2;return`M${n},0L0,0L0,${r}L${n},${r}L${n},0Z
+    M${u},${d} h${f} a${l},${l} 0 0 1 ${l},${l} v${p} a${l},${l} 0 0 1 -${l},${l} h-${f} a${l},${l} 0 0 1 -${l},-${l} v-${p} a${l},${l} 0 0 1 ${l},-${l} z`}function E(e,t,n,r,i){let a=e.getState(`__activeStagePosition`),o=a||r.getBoundingClientRect(),s=i.getBoundingClientRect();a={x:h(t,o.x,s.x-o.x,n),y:h(t,o.y,s.y-o.y,n),width:h(t,o.width,s.width-o.width,n),height:h(t,o.height,s.height-o.height,n)},A(e,a),e.setState(`__activeStagePosition`,a)}function D(e,t){if(!t)return;let n=t.getBoundingClientRect(),r={x:n.x,y:n.y,width:n.width,height:n.height};e.setState(`__activeStagePosition`,r),A(e,r)}function O(e){let t=e.getState(`__activeStagePosition`),n=e.getState(`__overlaySvg`);if(!t)return;if(!n){console.warn(`No stage svg found.`);return}let r=window.innerWidth,i=window.innerHeight;n.setAttribute(`viewBox`,`0 0 ${r} ${i}`)}function k(e,t){let n=M(e,t);document.body.appendChild(n),r(n,t=>{t.target.tagName===`path`&&e.emit(`overlayClick`)}),e.setState(`__overlaySvg`,n)}function A(e,t){let n=e.getState(`__overlaySvg`);if(!n){k(e,t);return}let r=n.firstElementChild;if(r?.tagName!==`path`)throw Error(`no path element found in stage svg`);r.setAttribute(`d`,T(t,j(e)))}function j(e){return{padding:e.getConfig(`stagePadding`)||0,radius:e.getConfig(`stageRadius`)||0}}function M(e,t){let n=window.innerWidth,r=window.innerHeight,i=document.createElementNS(`http://www.w3.org/2000/svg`,`svg`);i.classList.add(`driver-overlay`,`driver-overlay-animated`),i.setAttribute(`viewBox`,`0 0 ${n} ${r}`),i.setAttribute(`xmlSpace`,`preserve`),i.setAttribute(`xmlnsXlink`,`http://www.w3.org/1999/xlink`),i.setAttribute(`version`,`1.1`),i.setAttribute(`preserveAspectRatio`,`xMinYMin slice`),i.style.fillRule=`evenodd`,i.style.clipRule=`evenodd`,i.style.strokeLinejoin=`round`,i.style.strokeMiterlimit=`2`,i.style.zIndex=`10000`,i.style.position=`fixed`,i.style.top=`0`,i.style.left=`0`,i.style.width=`100%`,i.style.height=`100%`;let a=document.createElementNS(`http://www.w3.org/2000/svg`,`path`);return a.setAttribute(`d`,T(t,j(e))),a.style.fill=e.getConfig(`overlayColor`)||`rgb(0,0,0)`,a.style.opacity=`${e.getConfig(`overlayOpacity`)}`,a.style.pointerEvents=`auto`,a.style.cursor=`auto`,i.appendChild(a),i}function N(e){let t=e.getState(`__overlaySvg`);t&&(i(t),t.remove())}let P=`{{current}} of {{total}}`;function F(e,t){return!(t.skipMissingElement??e.getConfig(`skipMissingElement`))||!t.element?!1:!p(t.element)}function I(e,t,n){let r=e.getConfig(`steps`)||[];for(let i=t;i>=0&&i<r.length;i+=n)if(!F(e,r[i]))return i}function L(e,t){let n=e.getState(`activeIndex`),r=n!==void 0&&I(e,n+1,1)===void 0,i=t?.popover?.onDoneClick||e.getConfig(`onDoneClick`);return r&&i?i:t?.popover?.onNextClick||e.getConfig(`onNextClick`)}function R(e,t){return t?.popover?.onPrevClick||e.getConfig(`onPrevClick`)}function z(e,t){return t?.popover?.onCloseClick||e.getConfig(`onCloseClick`)}function B(e,t,n){let r=e.getConfig(`steps`)||[],i=r[t],a=i.popover||{},o=I(e,t+1,1)!==void 0,s=I(e,t-1,-1)!==void 0,c=a.doneBtnText||e.getConfig(`doneBtnText`)||`Done`,l=e.getConfig(`allowClose`),u=a.showProgress===void 0?e.getConfig(`showProgress`):a.showProgress,d=(a.progressText||e.getConfig(`progressText`)||P).replace(`{{current}}`,`${t+1}`).replace(`{{total}}`,`${r.length}`),f=a.showButtons||e.getConfig(`showButtons`),p=[`next`,`previous`,...l?[`close`]:[]].filter(e=>!f?.length||f.includes(e)),m=a.onNextClick||e.getConfig(`onNextClick`),h=a.onPrevClick||e.getConfig(`onPrevClick`),g=a.onCloseClick||e.getConfig(`onCloseClick`);return{...i,popover:{showButtons:p,nextBtnText:o?void 0:c,disableButtons:[...s?[]:[`previous`]],showProgress:u,onNextClick:m||n.onNextClick,onPrevClick:h||n.onPrevClick,onCloseClick:g||n.onCloseClick,...a,progressText:d}}}function V(e,t,n){let r=e.getConfig(`stagePadding`)||0;return{side:n.popover?.side||`bottom`,align:n.popover?.align||`start`,offset:r+(e.getConfig(`popoverOffset`)||0),padding:r,centered:t.id===`driver-dummy-element`}}function H(e,t,n){let r=n.popover||{},i=e.getState(`activeIndex`),a=i!==void 0&&I(e,i+1,1)===void 0;return{title:r.title,description:r.description,showButtons:r.showButtons||e.getConfig(`showButtons`),disableButtons:r.disableButtons||e.getConfig(`disableButtons`)||[],showProgress:r.showProgress||e.getConfig(`showProgress`)||!1,progressText:r.progressText??(e.getConfig(`progressText`)||P),nextBtnText:r.nextBtnText??(e.getConfig(`nextBtnText`)||`Next`),prevBtnText:r.prevBtnText??(e.getConfig(`prevBtnText`)||`Previous`),doneButton:a,popoverClass:r.popoverClass||e.getConfig(`popoverClass`)||``,smoothScroll:e.getConfig(`smoothScroll`),onNextClick:()=>{let r=L(e,n);return r?r(t,n,e.getHookOpts()):e.emit(`nextClick`)},onPrevClick:()=>{let r=R(e,n);return r?r(t,n,e.getHookOpts()):e.emit(`prevClick`)},onCloseClick:()=>{let r=z(e,n);return r?r(t,n,e.getHookOpts()):e.emit(`closeClick`)},onRender:t=>{e.setState(`popover`,t),(r.onPopoverRender||e.getConfig(`onPopoverRender`))?.(t,e.getHookOpts())},position:V(e,t,n)}}function U(e,t,n){w(e.getState(`popover`)),S(t,H(e,t,n))}function W(e,t,n){let r=e.getState(`popover`);r&&c(r,t,V(e,t,n))}function G(){let e=document.getElementById(`driver-dummy-element`);if(e)return e;let t=document.createElement(`div`);return t.id=`driver-dummy-element`,t.style.width=`0`,t.style.height=`0`,t.style.pointerEvents=`none`,t.style.opacity=`0`,t.style.position=`fixed`,t.style.top=`50%`,t.style.left=`50%`,document.body.appendChild(t),t}function K(e,t){let n=p(t.element);n||(n=G()),J(e,n,t)}function q(e){let t=e.getState(`__activeElement`),n=e.getState(`__activeStep`);t&&(D(e,t),O(e),W(e,t,n))}function J(e,t,n){let r=e.getConfig(`duration`)||400,i=Date.now(),a=e.getState(`__activeStep`),o=e.getState(`__activeElement`)||t,s=!o||o===t,c=t.id===`driver-dummy-element`,l=o.id===`driver-dummy-element`,u=e.getConfig(`animate`),d=n.onHighlightStarted||e.getConfig(`onHighlightStarted`),f=n?.onHighlighted||e.getConfig(`onHighlighted`),p=a?.onDeselected||e.getConfig(`onDeselected`),h=e.getHookOpts();!s&&p&&p(l?void 0:o,a,h),d&&d(c?void 0:t,n,h);let g=!s&&u,v=!1;x(e.getState(`popover`)),e.setState(`previousStep`,a),e.setState(`previousElement`,o),e.setState(`activeStep`,n),e.setState(`activeElement`,t);let y=()=>{if(e.getState(`__transitionCallback`)!==y)return;let s=Date.now()-i,l=r-s<=r/2;n.popover&&l&&!v&&g&&(U(e,t,n),v=!0),e.getConfig(`animate`)&&s<r?E(e,s,r,o,t):(D(e,t),f&&f(c?void 0:t,n,e.getHookOpts()),e.setState(`__transitionCallback`,void 0),e.setState(`__previousStep`,a),e.setState(`__previousElement`,o),e.setState(`__activeStep`,n),e.setState(`__activeElement`,t)),window.requestAnimationFrame(y)};e.setState(`__transitionCallback`,y),window.requestAnimationFrame(y),_(t,e.getConfig(`smoothScroll`)),!g&&n.popover&&U(e,t,n),document.querySelectorAll(`.driver-active-element-parent`).forEach(e=>{e.classList.remove(`driver-active-element-parent`,`driver-active-element-parent-no-scroll`)}),o.classList.remove(`driver-active-element`,`driver-no-interaction`),o.removeAttribute(`aria-haspopup`),o.removeAttribute(`aria-expanded`),o.removeAttribute(`aria-controls`),(n.disableActiveInteraction??e.getConfig(`disableActiveInteraction`))&&t.classList.add(`driver-no-interaction`);let b=t.parentElement;b&&b!==document.body&&(b.classList.add(`driver-active-element-parent`),m(b)&&b.classList.add(`driver-active-element-parent-no-scroll`)),t.classList.add(`driver-active-element`),t.setAttribute(`aria-haspopup`,`dialog`),t.setAttribute(`aria-expanded`,`true`),t.setAttribute(`aria-controls`,`driver-popover-content`)}function Y(){document.getElementById(`driver-dummy-element`)?.remove(),document.querySelectorAll(`.driver-active-element`).forEach(e=>{let t=e.parentElement;t&&t!==document.body&&t.classList.remove(`driver-active-element-parent`,`driver-active-element-parent-no-scroll`),e.classList.remove(`driver-active-element`,`driver-no-interaction`),e.removeAttribute(`aria-haspopup`),e.removeAttribute(`aria-expanded`),e.removeAttribute(`aria-controls`)})}function X(e){let t=e.getState(`__resizeTimeout`);t&&window.cancelAnimationFrame(t),e.setState(`__resizeTimeout`,window.requestAnimationFrame(()=>q(e)))}function Z(e,t){if(!e.getState(`isInitialized`)||!(t.key===`Tab`||t.keyCode===9))return;let n=e.getState(`__activeElement`),r=e.getState(`popover`)?.wrapper,i=g([...r?[r]:[],...n?[n]:[]]),a=i[0],o=i[i.length-1];t.preventDefault(),t.shiftKey?(i[i.indexOf(document.activeElement)-1]||o)?.focus():(i[i.indexOf(document.activeElement)+1]||a)?.focus()}function Q(e,t){(e.getConfig(`allowKeyboardControl`)??!0)&&(t.key===`Escape`?e.emit(`escapePress`):t.key===`ArrowRight`?e.emit(`arrowRightPress`):t.key===`ArrowLeft`&&e.emit(`arrowLeftPress`))}function te(e,t){let n=e.getState(`__activeElement`),r=t.target;!n||!r||!n.contains(r)||e.emit(`activeElementClick`)}function ne(e){let t=t=>Q(e,t),n=t=>Z(e,t),r=()=>X(e),i=()=>X(e),a=t=>te(e,t);e.setState(`__events`,{onKeyup:t,onKeydown:n,onResize:r,onScroll:i,onClick:a}),window.addEventListener(`keyup`,t,!1),window.addEventListener(`keydown`,n,!1),window.addEventListener(`resize`,r),window.addEventListener(`scroll`,i),document.addEventListener(`click`,a,!1)}function $(e){let t=e.getState(`__events`);t&&(window.removeEventListener(`keyup`,t.onKeyup),window.removeEventListener(`keydown`,t.onKeydown),window.removeEventListener(`resize`,t.onResize),window.removeEventListener(`scroll`,t.onScroll),document.removeEventListener(`click`,t.onClick,!1))}function re(){let e={};function t(t={}){e={animate:!0,duration:400,allowClose:!0,allowScroll:!0,overlayClickBehavior:`close`,overlayOpacity:.7,smoothScroll:!1,disableActiveInteraction:!1,advanceOnClick:!1,skipMissingElement:!1,waitForElement:0,showProgress:!1,stagePadding:10,stageRadius:5,popoverOffset:10,showButtons:[`next`,`previous`,`close`],disableButtons:[],overlayColor:`#000`,...t}}return t(),{getConfig:(t=>t?e[t]:e),configure:t}}function ie(){let e={},t=(t=>t?e[t]:e),n=(t,n)=>{e[t]=n};function r(){e={}}return{getState:t,setState:n,resetState:r}}function ae(){let e={};function t(t,n){e[t]=n}function n(t){e[t]?.()}function r(){e={}}return{listen:t,emit:n,reset:r}}function oe(e={}){let t=re();t.configure(e);let n=ie(),r=ae(),i;return{getConfig:t.getConfig,setConfig:t.configure,getState:n.getState,setState:n.setState,resetState:n.resetState,listen:r.listen,emit:r.emit,resetEmitter:r.reset,getDriver:()=>i,setDriver:e=>{i=e},getHookOpts:e=>{let r=e||n.getState();return{config:t.getConfig(),state:r,driver:i,index:r.activeIndex}}}}function se(e={}){let t=oe(e);function n(){t.getConfig(`allowClose`)&&h()}function r(){let e=t.getConfig(`overlayClickBehavior`);if(t.getConfig(`allowClose`)&&e===`close`){h();return}if(typeof e==`function`){let n=t.getState(`__activeStep`);e(t.getState(`__activeElement`),n,t.getHookOpts());return}if(e===`nextStep`){let e=t.getState(`activeStep`),n=t.getState(`activeElement`),r=L(t,e);if(r){r(n,e,t.getHookOpts());return}i()}}function i(){let e=t.getState(`activeIndex`),n=t.getConfig(`steps`)||[];if(e===void 0)return;let r=e+1;n[r]?m(r):h()}function a(){let e=t.getState(`activeIndex`),n=t.getConfig(`steps`)||[];if(e===void 0)return;let r=e-1;n[r]?m(r):h()}function o(e){(t.getConfig(`steps`)||[])[e]?m(e):h()}function s(){if(t.getState(`__transitionCallback`))return;let e=t.getState(`__activeStep`);if(!e||!(e.advanceOnClick??t.getConfig(`advanceOnClick`)))return;let n=t.getState(`__activeElement`),r=L(t,e);if(r){r(n,e,t.getHookOpts());return}i()}function c(){if(t.getState(`__transitionCallback`))return;let e=t.getState(`activeIndex`),n=t.getState(`__activeStep`),r=t.getState(`__activeElement`);if(e===void 0||n===void 0||!(t.getConfig(`steps`)||[])[e-1])return;let i=R(t,n);if(i)return i(r,n,t.getHookOpts());a()}function l(){if(t.getState(`__transitionCallback`))return;let e=t.getState(`activeIndex`),n=t.getState(`__activeStep`),r=t.getState(`__activeElement`);if(e===void 0||n===void 0)return;let a=L(t,n);if(a)return a(r,n,t.getHookOpts());i()}function u(){t.getState(`isInitialized`)||(t.setState(`isInitialized`,!0),document.body.classList.add(`driver-active`,t.getConfig(`animate`)?`driver-fade`:`driver-simple`),t.getConfig(`allowScroll`)||document.body.classList.add(`driver-no-scroll`),document.body.style.setProperty(`--driver-animation-duration`,`${t.getConfig(`duration`)||400}ms`),ne(t),t.listen(`overlayClick`,r),t.listen(`activeElementClick`,s),t.listen(`escapePress`,n),t.listen(`closeClick`,n),t.listen(`arrowLeftPress`,c),t.listen(`arrowRightPress`,l))}function d(){let e=t.getState(`__pendingWaitCancel`);e&&(t.setState(`__pendingWaitCancel`,void 0),e())}function f(e,n,r){let i=()=>{a.disconnect(),window.clearTimeout(o),t.setState(`__pendingWaitCancel`,void 0),r()},a=new MutationObserver(()=>{p(e.element)&&i()}),o=window.setTimeout(i,n);t.setState(`__pendingWaitCancel`,()=>{a.disconnect(),window.clearTimeout(o)}),a.observe(document.documentElement,{childList:!0,subtree:!0,attributes:!0})}function m(e=0,n=!1){d();let r=t.getConfig(`steps`);if(!r){console.error(`No steps to drive through`),h();return}if(!r[e]){h();return}let i=r[e],a=i.waitForElement??t.getConfig(`waitForElement`)??0;if(!n&&a>0&&i.element&&!p(i.element)){f(i,a,()=>m(e,!0));return}if(F(t,i)){let n=t.getState(`activeIndex`),i=typeof n==`number`&&e<n?-1:1;r[e+i]?m(e+i):i===1&&h();return}t.setState(`__activeOnDestroyed`,document.activeElement),t.setState(`activeIndex`,e);let o=r[e+1];K(t,B(t,e,{onNextClick:()=>{o?m(e+1):h()},onPrevClick:()=>{m(e-1)},onCloseClick:()=>{h()}}))}function h(e=!0){let n=t.getState(`__activeElement`),r=t.getState(`__activeStep`),i=t.getState(`__activeOnDestroyed`),a=t.getConfig(`onDestroyStarted`);if(e&&a){a(!n||n?.id===`driver-dummy-element`?void 0:n,r,t.getHookOpts());return}let o=r?.onDeselected||t.getConfig(`onDeselected`),s=t.getConfig(`onDestroyed`);document.body.classList.remove(`driver-active`,`driver-fade`,`driver-simple`,`driver-no-scroll`),document.body.style.removeProperty(`--driver-animation-duration`),d(),$(t),w(t.getState(`popover`)),Y(),N(t),t.resetEmitter();let c=t.getState();if(t.resetState(),n&&r){let e=n.id===`driver-dummy-element`;o&&o(e?void 0:n,r,t.getHookOpts(c)),s&&s(e?void 0:n,r,t.getHookOpts(c))}i&&i.focus()}let g={isActive:()=>t.getState(`isInitialized`)||!1,refresh:()=>X(t),drive:(e=0)=>{u(),m(e)},setConfig:t.setConfig,setSteps:e=>{d(),t.resetState(),t.setConfig({...t.getConfig(),steps:e})},getConfig:t.getConfig,getState:t.getState,getActiveIndex:()=>t.getState(`activeIndex`),isFirstStep:()=>{let e=t.getState(`activeIndex`);return e!==void 0&&I(t,e-1,-1)===void 0},isLastStep:()=>{let e=t.getState(`activeIndex`);return e!==void 0&&I(t,e+1,1)===void 0},getActiveStep:()=>t.getState(`activeStep`),getActiveElement:()=>t.getState(`activeElement`),getPreviousElement:()=>t.getState(`previousElement`),getPreviousStep:()=>t.getState(`previousStep`),getNextStep:()=>{let e=t.getConfig(`steps`)||[],n=t.getState(`activeIndex`);if(n===void 0)return;let r=I(t,n+1,1);return r===void 0?void 0:e[r]},moveNext:i,movePrevious:a,moveTo:o,hasNextStep:()=>{let e=t.getState(`activeIndex`);return e!==void 0&&I(t,e+1,1)!==void 0},hasPreviousStep:()=>{let e=t.getState(`activeIndex`);return e!==void 0&&I(t,e-1,-1)!==void 0},highlight:e=>{u(),K(t,{...e,popover:e.popover?{showButtons:[],showProgress:!1,progressText:``,...e.popover}:void 0})},destroy:()=>{h(!1)}};return t.setDriver(g),g}return e.driver=se,e})({});
+</script>
+<script>
+/*!
+ * Guia Coplan v0.1 (prova de conceito)
+ * Roteiros guiados e ajuda por tela para aplicações web GeneXus.
+ * Não altera nenhum objeto GeneXus: só lê a página já renderizada.
+ * Depende de Driver.js 1.8.0 (licença MIT), carregado antes deste arquivo.
+ */
+(function (w, d) {
+  'use strict';
+
+  var CFG = {};
+  var roteiroAtual = null;
+  var telaCarregada = null;
+  var driverObj = null;
+  var botao = null;
+  var passoOk = {};          // índice do passo -> ação exigida já foi feita
+  var observador = null;
+
+  var PADRAO = {
+    roteirosUrl: 'guia-coplan/roteiros/', // pasta com um JSON por tela
+    roteiros: null,          // alternativa: objeto { "nome-da-tela": {roteiro} } já embutido
+    manualUrl: null,         // ex.: 'https://manual.exemplo/novo-sat/#{tela}'
+    tela: null,              // força o nome da tela (senão é deduzido da URL)
+    montarBotaoEm: null,     // seletor onde o botão ? é inserido; vazio = botão flutuante
+    registrar: null,         // function (evento) {...} para guardar evidência de uso
+    onAbrirManual: null,     // function (url, roteiro) {...}; padrão abre nova aba
+    debug: false
+  };
+
+  /* ---------- utilitários ---------- */
+  function log() { if (CFG.debug && w.console) console.log.apply(console, ['[guia-coplan]'].concat([].slice.call(arguments))); }
+  function q(sel) { try { return sel ? d.querySelector(sel) : null; } catch (e) { return null; } }
+  function qa(sel) { try { return sel ? d.querySelectorAll(sel) : []; } catch (e) { return []; } }
+  function el(tag, cls, html) { var e = d.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; }
+
+  function registrar(evento, extra) {
+    var dados = { evento: evento, tela: telaCarregada, roteiro: roteiroAtual && roteiroAtual.titulo, quando: new Date().toISOString() };
+    for (var k in (extra || {})) dados[k] = extra[k];
+    log(dados);
+    if (typeof CFG.registrar === 'function') { try { CFG.registrar(dados); } catch (e) {} }
+  }
+
+  /* Deduz o nome do objeto GeneXus pela URL.
+     .NET:  /novosat/wpparcelamento.aspx            -> wpparcelamento
+     Java:  /novosat/servlet/com.novosat.wpparcelamento -> wpparcelamento
+     Validar com as URLs reais do ambiente. */
+  function telaAtual() {
+    if (CFG.tela) return String(CFG.tela).toLowerCase();
+    var ult = (w.location.pathname.split('/').pop() || '').replace(/\.(aspx|html?)$/i, '');
+    return ult.split('.').pop().toLowerCase();
+  }
+
+  function carregarRoteiro(tela) {
+    if (CFG.roteiros) return Promise.resolve(CFG.roteiros[tela] || null);
+    return fetch(CFG.roteirosUrl + tela + '.json', { cache: 'no-cache', credentials: 'same-origin' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .catch(function () { return null; });
+  }
+
+  /* ---------- condição de "esperar" ---------- */
+  // tipos: "clique" | "preenchido" | "marcado"
+  function condicaoAtendida(p, i) {
+    var e = p.esperar;
+    if (!e) return true;
+    if (e.tipo === 'clique') return !!passoOk[i];
+    var alvo = e.alvo || p.alvo;
+    var itens = qa(alvo);
+    for (var k = 0; k < itens.length; k++) {
+      if (e.tipo === 'marcado' && itens[k].checked) return true;
+      if (e.tipo === 'preenchido' && String(itens[k].value || '').trim() !== '') return true;
+    }
+    return false;
+  }
+
+  function atualizarPopover() {
+    if (!driverObj || !driverObj.isActive() || !roteiroAtual) return;
+    var i = driverObj.getActiveIndex();
+    var p = roteiroAtual.passos[i];
+    var pop = driverObj.getState('popover');
+    if (!p || !pop) return;
+    var ok = condicaoAtendida(p, i);
+    pop.nextButton.disabled = !ok;
+    pop.nextButton.classList.toggle('guia-desabilitado', !ok);
+    var aviso = pop.description.querySelector('.guia-aviso');
+    if (!ok && !aviso && p.esperar) {
+      pop.description.appendChild(el('span', 'guia-aviso', p.esperar.mensagem || 'Execute a ação indicada para continuar.'));
+    } else if (ok && aviso) {
+      aviso.remove();
+    }
+  }
+
+  // Delegação no document: sobrevive aos re-renders que o GeneXus faz via AJAX.
+  function ouvirAcoes(ev) {
+    if (!driverObj || !driverObj.isActive() || !roteiroAtual) return;
+    var i = driverObj.getActiveIndex();
+    var p = roteiroAtual.passos[i];
+    if (!p || !p.esperar) return;
+    var alvo = p.esperar.alvo || p.alvo;
+    var casou = false;
+    try { casou = !!(ev.target.closest && ev.target.closest(alvo)); } catch (e) {}
+    if (!casou) return;
+    if (p.esperar.tipo === 'clique' && ev.type === 'click') {
+      passoOk[i] = true;
+      registrar('acao_executada', { passo: i + 1 });
+      // dá tempo para o evento GeneXus rodar e a tela se atualizar
+      setTimeout(function () { if (driverObj && driverObj.getActiveIndex() === i) driverObj.moveNext(); }, 600);
+      return;
+    }
+    if (!passoOk[i] && condicaoAtendida(p, i)) { passoOk[i] = true; registrar('acao_executada', { passo: i + 1 }); }
+    atualizarPopover();
+  }
+
+  /* ---------- roteiro ---------- */
+  function iniciarRoteiro() {
+    if (!roteiroAtual) return;
+    var criar = w.driver && w.driver.js && w.driver.js.driver;
+    if (!criar) { console.error('[guia-coplan] Driver.js não foi carregado antes do guia-coplan.js'); return; }
+    passoOk = {};
+    var total = roteiroAtual.passos.length;
+    driverObj = criar({
+      showProgress: true,
+      progressText: 'Passo {{current}} de {{total}}',
+      nextBtnText: 'Próximo',
+      prevBtnText: 'Voltar',
+      doneBtnText: 'Concluir',
+      popoverClass: 'guia-coplan-popover',
+      overlayOpacity: 0.55,
+      stageRadius: 12,
+      waitForElement: 4000,        // espera o GeneXus desenhar o controle (AJAX)
+      allowClose: true,
+      steps: roteiroAtual.passos.map(function (p) {
+        return {
+          element: p.alvo || undefined,
+          popover: { title: p.titulo, description: p.texto, side: p.lado || 'bottom', align: 'start' }
+        };
+      }),
+      onPopoverRender: function () { setTimeout(atualizarPopover, 0); },
+      onNextClick: function () {
+        var i = driverObj.getActiveIndex();
+        if (!condicaoAtendida(roteiroAtual.passos[i], i)) { atualizarPopover(); return; }
+        registrar('passo_concluido', { passo: i + 1 });
+        if (i === total - 1) { registrar('roteiro_concluido', { passos: total }); driverObj.destroy(); }
+        else driverObj.moveNext();
+      },
+      onCloseClick: function () {
+        registrar('roteiro_interrompido', { passo: driverObj.getActiveIndex() + 1 });
+        driverObj.destroy();
+      }
+    });
+    registrar('roteiro_iniciado', { passos: total });
+    driverObj.drive();
+  }
+
+  function abrirManual() {
+    var url = CFG.manualUrl ? CFG.manualUrl.replace('{tela}', encodeURIComponent((roteiroAtual && roteiroAtual.manual) || telaCarregada)) : null;
+    registrar('manual_aberto');
+    if (typeof CFG.onAbrirManual === 'function') return CFG.onAbrirManual(url, roteiroAtual);
+    if (url) w.open(url, '_blank', 'noopener');
+  }
+
+  /* ---------- botão ? ---------- */
+  var ICONE_AJUDA = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>';
+
+  var ICONE_ROTEIRO = '<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><circle cx="6" cy="19" r="3" /><path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15" /><circle cx="18" cy="5" r="3" /></svg>';
+  var ICONE_MANUAL = '<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M12 5v16" /><path d="M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z" /></svg>';
+
+  function montarBotao() {
+    if (botao) { botao.remove(); botao = null; }
+    if (!roteiroAtual && !CFG.manualUrl && !CFG.onAbrirManual) return;
+    var host = CFG.montarBotaoEm ? q(CFG.montarBotaoEm) : null;
+    botao = el('div', 'guia-coplan' + (host ? '' : ' guia-coplan--flutuante'));
+    var btn = el('button', 'guia-coplan__botao', ICONE_AJUDA);
+    btn.type = 'button';
+    btn.id = 'guia-coplan-botao';
+    btn.setAttribute('aria-label', 'Ajuda desta tela');
+    btn.setAttribute('aria-expanded', 'false');
+    var menu = el('div', 'guia-coplan__menu');
+    menu.hidden = true;
+    menu.appendChild(el('div', 'guia-coplan__menu-titulo', 'Ajuda desta tela'));
+    if (roteiroAtual) {
+      var b1 = el('button', null, ICONE_ROTEIRO + 'Me guie nesta tela'); b1.type = 'button';
+      b1.onclick = function () { menu.hidden = true; iniciarRoteiro(); };
+      menu.appendChild(b1);
+    }
+    var b2 = el('button', null, ICONE_MANUAL + 'Abrir manual desta tela'); b2.type = 'button';
+    b2.onclick = function () { menu.hidden = true; abrirManual(); };
+    menu.appendChild(b2);
+    btn.onclick = function () { menu.hidden = !menu.hidden; btn.setAttribute('aria-expanded', String(!menu.hidden)); };
+    botao.appendChild(btn); botao.appendChild(menu);
+    (host || d.body).appendChild(botao);
+  }
+
+  /* ---------- ferramentas para o desenvolvedor ---------- */
+  function seletorDe(no) {
+    if (!no || no === d.body) return 'body';
+    if (no.id) return '#' + (w.CSS && CSS.escape ? CSS.escape(no.id) : no.id);
+    var caminho = [];
+    while (no && no.nodeType === 1 && no !== d.body) {
+      if (no.id) { caminho.unshift('#' + (w.CSS && CSS.escape ? CSS.escape(no.id) : no.id)); break; }
+      var tag = no.tagName.toLowerCase(), pai = no.parentNode, idx = 1, irm = no;
+      while ((irm = irm.previousElementSibling)) if (irm.tagName === no.tagName) idx++;
+      caminho.unshift(tag + ':nth-of-type(' + idx + ')');
+      no = pai;
+    }
+    return caminho.join(' > ');
+  }
+
+  // Alt+clique em qualquer controle mostra o seletor para usar no JSON.
+  function mapear() {
+    d.addEventListener('click', function (ev) {
+      if (!ev.altKey) return;
+      ev.preventDefault(); ev.stopPropagation();
+      var s = seletorDe(ev.target);
+      console.log('[guia-coplan] seletor:', s, ev.target);
+      if (navigator.clipboard) navigator.clipboard.writeText(s).catch(function () {});
+      var t = el('div', 'guia-coplan__toast', 'Seletor: <code></code>');
+      t.querySelector('code').textContent = s;
+      d.body.appendChild(t);
+      setTimeout(function () { t.remove(); }, 3500);
+    }, true);
+    console.log('[guia-coplan] modo mapeamento ativo: Alt+clique em um controle.');
+  }
+
+  // Lista quais alvos do roteiro atual não existem na tela (use após cada build).
+  function verificar() {
+    if (!roteiroAtual) { console.warn('[guia-coplan] nenhuma tela com roteiro carregada'); return []; }
+    var r = roteiroAtual.passos.map(function (p, i) {
+      return { passo: i + 1, alvo: p.alvo || '(centro da tela)', encontrado: p.alvo ? !!q(p.alvo) : true };
+    });
+    if (console.table) console.table(r);
+    return r;
+  }
+
+  /* ---------- ciclo de vida ---------- */
+  function carregarTela() {
+    var tela = telaAtual();
+    if (tela === telaCarregada) return;
+    telaCarregada = tela;
+    carregarRoteiro(tela).then(function (r) {
+      roteiroAtual = r && r.passos && r.passos.length ? r : null;
+      log('tela', tela, roteiroAtual ? 'com roteiro' : 'sem roteiro');
+      montarBotao();
+    });
+  }
+
+  function iniciar(config) {
+    CFG = {};
+    for (var k in PADRAO) CFG[k] = PADRAO[k];
+    var ext = config || w.GUIA_COPLAN_CONFIG || {};
+    for (var j in ext) CFG[j] = ext[j];
+
+    d.addEventListener('click', ouvirAcoes, true);
+    d.addEventListener('change', ouvirAcoes, true);
+    d.addEventListener('input', ouvirAcoes, true);
+
+    // Reposiciona o destaque quando o GeneXus atualiza a tela via AJAX.
+    if (w.MutationObserver && !observador) {
+      var t = null;
+      observador = new MutationObserver(function () {
+        clearTimeout(t);
+        t = setTimeout(function () { if (driverObj && driverObj.isActive()) { driverObj.refresh(); atualizarPopover(); } }, 150);
+      });
+      observador.observe(d.body, { childList: true, subtree: true });
+    }
+
+    // Web User Experience "Smooth" pode trocar de tela sem recarregar a página.
+    setInterval(carregarTela, 1000);
+    try { if (w.localStorage && localStorage.getItem('guiaCoplanMapear') === '1') mapear(); } catch (e) {}
+    carregarTela();
+  }
+
+  w.GuiaCoplan = { iniciar: iniciar, iniciarRoteiro: iniciarRoteiro, mapear: mapear, verificar: verificar, telaAtual: telaAtual };
+
+  if (w.GUIA_COPLAN_CONFIG && w.GUIA_COPLAN_CONFIG.autoIniciar !== false) {
+    if (d.readyState === 'loading') d.addEventListener('DOMContentLoaded', function () { iniciar(); });
+    else iniciar();
+  }
+})(window, document);
+
+</script>
+<script>
+(function(){
+  var $ = function(s){ return document.querySelector(s); };
+  var ROTEIRO = {"tela": "wpparcelamentosimulacao", "titulo": "Simular parcelamento no atendimento", "macroprocesso": "Parcelamento de Créditos Tributários e Não Tributários", "manual": "parcelamento-simulacao", "passos": [{"titulo": "Simulação de parcelamento", "texto": "Este roteiro conduz uma simulação completa, do contribuinte ao termo. Nada é gravado até o termo ser gerado."}, {"alvo": "#vCPFCNPJ", "titulo": "Identifique o contribuinte", "texto": "Informe o CPF ou CNPJ e confira o nome com o documento apresentado.", "esperar": {"tipo": "preenchido", "mensagem": "Informe o CPF/CNPJ para continuar."}}, {"alvo": "#GriddebitosContainerDiv", "titulo": "Escolha os débitos", "texto": "Marque os débitos que entram no acordo. Débito em dívida ativa ajuizada não aparece habilitado: segue o fluxo da Procuradoria.", "esperar": {"tipo": "marcado", "alvo": "input[id^='vSELECIONADO_']", "mensagem": "Marque pelo menos um débito para continuar."}}, {"alvo": "#TABLECONDICOES", "titulo": "Defina as condições", "texto": "Escolha o número de parcelas e o percentual de entrada. A regra de valor mínimo por parcela é validada na simulação."}, {"alvo": "#BTNSIMULAR", "titulo": "Simule", "texto": "Clique em Simular. O roteiro avança sozinho quando a simulação terminar.", "esperar": {"tipo": "clique", "mensagem": "Clique em Simular."}}, {"alvo": "#TXTRESULTADO", "titulo": "Confira com o contribuinte", "texto": "Leia os valores com o contribuinte. Só gere o termo depois do aceite dele."}, {"alvo": "#guia-coplan-botao", "titulo": "Dúvida depois do treinamento?", "texto": "Este botão fica em todas as telas. Ele abre o manual exatamente desta tela ou repete este roteiro.", "lado": "left"}]};
+  var fmt = function(v){ return v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'}); };
+  var aside = $('#sidebar'), mq = window.matchMedia('(max-width: 899px)');
+
+  /* ---------- navegação entre páginas (igual ao DS) ---------- */
+  var links = document.querySelectorAll('#nav a');
+  function mostrar(page, rolar){
+    var alvo = document.getElementById('page-' + page); if(!alvo) return;
+    if(window.GuiaCoplan && window.driver && document.querySelector('.driver-popover')) { var c=document.querySelector('.driver-popover-close-btn'); if(c) c.click(); }
+    document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
+    links.forEach(function(l){ l.classList.toggle('active', l.dataset.page === page); if(l.dataset.page===page) l.setAttribute('aria-current','page'); else l.removeAttribute('aria-current'); });
+    alvo.classList.add('active');
+    try { history.replaceState(null, '', '#' + page); } catch(e) {}
+    if(rolar !== false) window.scrollTo(0,0);
+    fecharMobile();
+  }
+  links.forEach(function(l){ l.addEventListener('click', function(e){ e.preventDefault(); mostrar(l.dataset.page); }); });
+  document.addEventListener('click', function(e){ var g = e.target.closest('[data-go]'); if(g){ e.preventDefault(); fecharDropdowns(); mostrar(g.dataset.go); } });
+  var inicial = (location.hash || '').replace('#','');
+  if(inicial && document.getElementById('page-' + inicial)) mostrar(inicial, false);
+  window.addEventListener('hashchange', function(){ var h = (location.hash || '').replace('#',''); if(h && document.getElementById('page-' + h) && !document.getElementById('page-' + h).classList.contains('active')) mostrar(h); });
+
+  /* ---------- recolher sidebar / menu mobile ---------- */
+  function fecharMobile(){ aside.classList.remove('mobile-open'); $('#asideBackdrop').classList.remove('open'); }
+  $('#docCollapseBtn').addEventListener('click', function(){
+    if(mq.matches){ var abrir = !aside.classList.contains('mobile-open'); aside.classList.toggle('mobile-open', abrir); $('#asideBackdrop').classList.toggle('open', abrir); return; }
+    aside.classList.toggle('collapsed');
+    this.classList.toggle('flipped');
+    this.title = this.classList.contains('flipped') ? 'Abrir Menu' : 'Fechar Menu';
+  });
+  $('#asideBackdrop').addEventListener('click', fecharMobile);
+
+  /* tooltip do menu recolhido (fundo branco, texto preto, sombra) */
+  var tip = null;
+  links.forEach(function(l){
+    l.addEventListener('mouseenter', function(){
+      if(!aside.classList.contains('collapsed') || mq.matches) return;
+      tip = document.createElement('div'); tip.className = 'nav-tip'; tip.textContent = l.querySelector('.lbl').textContent;
+      document.body.appendChild(tip); var r = l.getBoundingClientRect();
+      tip.style.left = (r.right + 10) + 'px'; tip.style.top = (r.top + r.height/2 - tip.offsetHeight/2) + 'px';
+    });
+    ['mouseleave','click'].forEach(function(ev){ l.addEventListener(ev, function(){ if(tip){ tip.remove(); tip = null; } }); });
+  });
+
+  /* ---------- dropdowns do cabeçalho ---------- */
+  function fecharDropdowns(){ document.querySelectorAll('.hdr-dropdown.open').forEach(function(d){ d.classList.remove('open'); }); }
+  document.querySelectorAll('[data-dd]').forEach(function(b){
+    b.addEventListener('click', function(e){ e.stopPropagation(); var d = document.getElementById(b.dataset.dd), aberto = d.classList.contains('open'); fecharDropdowns(); if(!aberto) d.classList.add('open'); });
+  });
+  document.addEventListener('click', function(e){ if(!e.target.closest('.hdr-icon-wrap') && !e.target.closest('.hdr-context-wrap')) fecharDropdowns(); });
+
+  /* ---------- busca ⌘K (indexa o menu lateral, igual ao DS) ---------- */
+  var indice = [];
+  document.querySelectorAll('#nav .navgroup').forEach(function(g){
+    var cat = g.querySelector('.navgroup-title').textContent.trim();
+    g.querySelectorAll('a[data-page]').forEach(function(a){ indice.push({label:a.querySelector('.lbl').textContent.trim(), page:a.dataset.page, cat:cat}); });
+  });
+  var sel = 0, lista = indice;
+  function render(){
+    var box = $('#docSearchResults');
+    if(!lista.length){ box.innerHTML = '<div style="padding:16px;font-size:13px;color:var(--muted)">Nenhuma seção encontrada.</div>'; return; }
+    box.innerHTML = '';
+    lista.forEach(function(it, i){
+      var d = document.createElement('div'); d.className = 'doc-search-result' + (i===sel?' sel':'');
+      d.innerHTML = '<span></span><span class="cat"></span>'; d.children[0].textContent = it.label; d.children[1].textContent = it.cat;
+      d.onclick = function(){ mostrar(it.page); fecharBusca(); }; box.appendChild(d);
+    });
+  }
+  function abrirBusca(){ $('#docSearchPanel').classList.add('open'); $('#docSearchBackdrop').classList.add('open'); lista = indice; sel = 0; render(); setTimeout(function(){ $('#docSearchInput').focus(); }, 10); }
+  function fecharBusca(){ $('#docSearchPanel').classList.remove('open'); $('#docSearchBackdrop').classList.remove('open'); $('#docSearchInput').value = ''; }
+  $('#docSearchBox').addEventListener('click', abrirBusca);
+  $('#docSearchBackdrop').addEventListener('click', fecharBusca);
+  $('#docSearchInput').addEventListener('input', function(){ var q = this.value.trim().toLowerCase(); lista = indice.filter(function(it){ return it.label.toLowerCase().indexOf(q) > -1 || it.cat.toLowerCase().indexOf(q) > -1; }); sel = 0; render(); });
+  $('#docSearchInput').addEventListener('keydown', function(e){
+    if(e.key === 'ArrowDown'){ e.preventDefault(); sel = Math.min(sel+1, lista.length-1); render(); }
+    if(e.key === 'ArrowUp'){ e.preventDefault(); sel = Math.max(sel-1, 0); render(); }
+    if(e.key === 'Enter' && lista[sel]){ mostrar(lista[sel].page); fecharBusca(); }
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape'){ fecharBusca(); fecharDropdowns(); fecharManual(); fecharMobile(); }
+    if((e.metaKey || e.ctrlKey) && (e.key === 'k' || e.key === 'K')){ e.preventDefault(); abrirBusca(); }
+  });
+
+  /* ---------- toast (DS) ---------- */
+  var tt;
+  function toast(tipo, titulo, msg){
+    var el = $('#liveToast'); el.className = 'toast-live ' + tipo; $('#toastTitle').textContent = titulo; $('#toastMsg').textContent = msg;
+    requestAnimationFrame(function(){ el.classList.add('show'); }); clearTimeout(tt); tt = setTimeout(function(){ el.classList.remove('show'); }, 3500);
+  }
+  $('#toastClose').addEventListener('click', function(){ $('#liveToast').classList.remove('show'); });
+
+  /* ---------- modal do manual ---------- */
+  function abrirManual(){ $('#manualRoteiro').textContent = ROTEIRO.titulo; $('#manualMacro').textContent = ROTEIRO.macroprocesso; $('#manualTela').textContent = 'Tela: ' + ROTEIRO.tela; $('#manualOverlay').classList.add('show'); $('#manualClose').focus(); }
+  function fecharManual(){ $('#manualOverlay').classList.remove('show'); }
+  $('#manualClose').addEventListener('click', fecharManual);
+  $('#manualOverlay').addEventListener('click', function(e){ if(e.target === this) fecharManual(); });
+
+  /* ---------- comportamento da tela fictícia (no Novo SAT, isso é o GeneXus) ---------- */
+  function total(){ var t = 0; document.querySelectorAll("input[id^='vSELECIONADO_']").forEach(function(c){ if(c.checked) t += parseFloat(c.dataset.v); }); return t; }
+  $('#vCPFCNPJ').addEventListener('input', function(){ $('#vNOME').value = this.value.replace(/\D/g,'').length >= 11 ? 'Maria Aparecida dos Santos' : ''; });
+  $('#BTNSIMULAR').addEventListener('click', function(){
+    var r = $('#TXTRESULTADO'), t = total();
+    if(!t){ r.className = 'resultado'; r.textContent = 'Selecione ao menos um débito antes de simular.'; return; }
+    r.className = 'resultado'; r.textContent = 'Calculando...';
+    setTimeout(function(){
+      var n = parseInt($('#vQTDPARCELAS').value,10), e = parseInt($('#vPERCENTRADA').value,10)/100, ent = t*e;
+      r.className = 'resultado ok';
+      r.innerHTML = 'Total <b>' + fmt(t) + '</b> · Entrada <b>' + fmt(ent) + '</b> · ' + n + 'x de <b>' + fmt((t-ent)/n) + '</b>';
+      $('#BTNGERARTERMO').disabled = false;
+    }, 350);
+  });
+  $('#BTNGERARTERMO').addEventListener('click', function(){ toast('success', 'Sucesso', 'Termo de parcelamento gerado (simulação).'); });
+  function limpar(){
+    $('#vCPFCNPJ').value = ''; $('#vNOME').value = '';
+    document.querySelectorAll("input[id^='vSELECIONADO_']").forEach(function(c){ c.checked = false; });
+    $('#TXTRESULTADO').className = 'resultado'; $('#TXTRESULTADO').textContent = 'Selecione ao menos um débito e clique em Simular.';
+    $('#BTNGERARTERMO').disabled = true;
+  }
+  var primeiro = true;
+  $('#btnLimpar').addEventListener('click', function(){ limpar(); $('#trace').innerHTML = '<li>Nenhum evento ainda.</li>'; primeiro = true; });
+  $('#btnIds').addEventListener('click', function(){ var on = $('#demoApp').classList.toggle('show-ids'); this.setAttribute('aria-pressed', String(on)); });
+
+  function registrar(ev){
+    var tr = $('#trace'); if(primeiro){ tr.innerHTML = ''; primeiro = false; }
+    var li = document.createElement('li');
+    li.textContent = new Date(ev.quando).toLocaleTimeString('pt-BR') + '  ' + ev.evento + (ev.passo ? '  passo ' + ev.passo : '') + (ev.passos ? '  (' + ev.passos + ' passos)' : '');
+    tr.appendChild(li); tr.scrollTop = tr.scrollHeight;
+    if(ev.evento === 'roteiro_concluido') toast('success', 'Roteiro concluído', 'Todos os passos foram executados.');
+  }
+
+  /* ---------- Guia Coplan configurado para esta demonstração ---------- */
+  var rot = {}; rot[ROTEIRO.tela] = ROTEIRO;
+  GuiaCoplan.iniciar({
+    tela: ROTEIRO.tela,           // no Novo SAT vem da URL
+    roteiros: rot,                // no Novo SAT vem de roteiros/<tela>.json
+    montarBotaoEm: '#demoBarAcoes',
+    onAbrirManual: function(){ abrirManual(); },
+    registrar: registrar
+  });
+  $('#btnIniciarDemo').addEventListener('click', function(){ limpar(); $('#demoApp').scrollIntoView({block:'start'}); setTimeout(GuiaCoplan.iniciarRoteiro, 250); });
+
+  /* ---------- copiar código ---------- */
+  document.querySelectorAll('.copy').forEach(function(b){
+    b.addEventListener('click', function(e){
+      e.preventDefault(); e.stopPropagation();
+      var el = document.getElementById(b.dataset.copy), txt = el.textContent;
+      var ok = function(){ toast('info', 'Copiado', 'Código copiado para a área de transferência.'); };
+      var fb = function(){ var r = document.createRange(); r.selectNodeContents(el); var s = getSelection(); s.removeAllRanges(); s.addRange(r); toast('info', 'Texto selecionado', 'Use Ctrl+C para copiar.'); };
+      if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(ok, fb); else fb();
+    });
+  });
+})();
+</script>
+</body>
+</html>
